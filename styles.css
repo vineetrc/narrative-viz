@@ -8,13 +8,13 @@ body {
 header {
     background-color: #4CAF50;
     color: white;
-    padding: 0.5em 0; /* Reduced padding to make the header smaller */
-    font-size: 1.5em; /* Adjusted font size */
+    padding: 0.5em 0;
+    font-size: 1.5em;
 }
 
 main {
     padding: 2em;
-    margin-bottom: 5em;  /* Added margin-bottom to make space for the navigation buttons */
+    margin-bottom: 5em;
 }
 
 .scene {
@@ -27,20 +27,10 @@ main {
     color: #555;
 }
 
-footer {
-    background-color: #f1f1f1;
-    color: #333;
-    padding: 0.5em 0;  /* Reduced padding to make the footer smaller */
-    font-size: 0.8em;  /* Adjusted font size */
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-}
-
 .navigation {
     margin: 1em 0;
-    position: fixed;  /* Fixed position */
-    bottom: 3em;      /* Positioned above the footer */
+    position: fixed;
+    bottom: 3em;
     width: 100%;
     display: flex;
     justify-content: center;
@@ -50,5 +40,5 @@ button {
     padding: 0.5em 1em;
     font-size: 1em;
     cursor: pointer;
-    margin: 0 1em;  /* Added margin between buttons */
+    margin: 0 1em;
 }
