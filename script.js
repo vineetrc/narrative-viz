@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    d3.csv('./data/cleaned_nba_playoff_stats.csv').then(function(data) {
+    d3.csv('cleaned_nba_playoff_stats.csv').then(function(data) {
         data.forEach(function(d) {
             d.pts = +d.PTS;
             d.fg_perc = +d['FG%'];
@@ -59,12 +59,42 @@ document.addEventListener('DOMContentLoaded', function() {
             .text('3-Point Percentage');
 
         svg1.append('text')
-            .attr('x', -300)
+            .attr('x', -350)  // Adjusted for more space
             .attr('y', 20)
             .attr('text-anchor', 'middle')
             .attr('font-size', '12px')
             .attr('transform', 'rotate(-90)')
             .text('2-Point Percentage');
+
+        // Adding annotations to two circles
+        const annotations = [
+            {
+                note: {
+                    label: "Top Scorer",
+                    title: "Player A"
+                },
+                x: xScale(data[0].threep_perc),
+                y: yScale(data[0].twop_perc),
+                dy: -30,
+                dx: 30
+            },
+            {
+                note: {
+                    label: "High Accuracy",
+                    title: "Player B"
+                },
+                x: xScale(data[1].threep_perc),
+                y: yScale(data[1].twop_perc),
+                dy: -30,
+                dx: 30
+            }
+        ];
+
+        const makeAnnotations = d3.annotation()
+            .annotations(annotations);
+
+        svg1.append('g')
+            .call(makeAnnotations);
     });
 });
 
