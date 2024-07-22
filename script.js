@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    d3.csv('./data/cleaned_nba_playoff_stats.csv', function(d) {
+    d3.csv('cleaned_nba_playoff_stats.csv', function(d) {
         return {
             player: d.Player,
             pts: +d.PTS,
