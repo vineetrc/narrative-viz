@@ -15,6 +15,16 @@ main {
     padding: 2em;
 }
 
+.scene {
+    margin-bottom: 2em;
+}
+
+.annotation {
+    margin-top: 1em;
+    font-style: italic;
+    color: #555;
+}
+
 footer {
     background-color: #f1f1f1;
     color: #333;
@@ -22,6 +32,10 @@ footer {
     position: fixed;
     bottom: 0;
     width: 100%;
+}
+
+.navigation {
+    margin: 1em 0;
 }
 
 button {

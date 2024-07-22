@@ -3,17 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My GitHub Pages Site</title>
+    <title>Narrative Visualization</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="https://d3js.org/d3.v6.min.js"></script>
 </head>
 <body>
     <header>
-        <h1>Welcome to My GitHub Pages Site</h1>
+        <h1>My Narrative Visualization</h1>
     </header>
     <main>
-        <p>This is a simple website hosted on GitHub Pages.</p>
-        <button id="myButton">Click me</button>
+        <section id="scene1" class="scene">
+            <h2>Scene 1: Introduction</h2>
+            <div id="chart1"></div>
+            <div class="annotation">This scene introduces the main topic.</div>
+        </section>
+        <section id="scene2" class="scene" style="display:none;">
+            <h2>Scene 2: Details</h2>
+            <div id="chart2"></div>
+            <div class="annotation">This scene provides detailed information.</div>
+        </section>
+        <section id="scene3" class="scene" style="display:none;">
+            <h2>Scene 3: Conclusion</h2>
+            <div id="chart3"></div>
+            <div class="annotation">This scene concludes the story and allows exploration.</div>
+        </section>
     </main>
+    <div class="navigation">
+        <button id="prevBtn" onclick="prevScene()">Previous</button>
+        <button id="nextBtn" onclick="nextScene()">Next</button>
+    </div>
     <footer>
         <p>Created by [Your Name]</p>
     </footer>
