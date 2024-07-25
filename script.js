@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    d3.csv('./data/cleaned_nba_playoff_stats.csv').then(function(data) {
+    d3.csv('./data/top_scorers_by_team.csv').then(function(data) {
         data.forEach(function(d) {
             d.pts = +d.PTS;
             d.fg_perc = +d['FG%'];
