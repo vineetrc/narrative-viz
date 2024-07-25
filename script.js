@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .append('circle')
             .attr('cx', d => xScale(d.threep_perc))
             .attr('cy', d => yScale(d.twop_perc))
-            .attr('r', d => rScale(d.pts))
+            .attr('r', d => rScale(d.pts**1.3))
             .attr('fill', d => colorScale(d.Tm))
             .attr('stroke', 'black')
             .attr('stroke-width', 1)
@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .text('3-Point Percentage');
 
         svg1.append('text')
-            .attr('x', -350)  // Adjusted for more space
+            .attr('x', -550)  // Adjusted for more space
             .attr('y', 20)
             .attr('text-anchor', 'middle')
             .attr('font-size', '12px')
@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             {
                 note: {
-                    label: "High Accuracy",
+                    label: "Highsome chansdfsdf Accuracy",
                     title: "Player B"
                 },
                 x: xScale(data[1].threep_perc),
