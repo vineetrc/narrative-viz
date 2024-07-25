@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .append('circle')
             .attr('cx', d => xScale(d.threep_perc))
             .attr('cy', d => yScale(d.twop_perc))
-            .attr('r', d => rScale(d.pts**1.3))
+            .attr('r', d => rScale((d.pts/2)**1.6))
             .attr('fill', d => colorScale(d.Tm))
             .attr('stroke', 'black')
             .attr('stroke-width', 1)
@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', function() {
             {
                 note: {
                     label: "Top Scorer",
-                    title: "Player A"
+                    title: "Playsdfdsdfsder A"
                 },
                 x: xScale(data[0].threep_perc),
                 y: yScale(data[0].twop_perc),
