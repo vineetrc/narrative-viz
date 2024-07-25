@@ -45,12 +45,8 @@ document.addEventListener('DOMContentLoaded', function() {
             .attr('stroke-width', 1)
             .on('mouseover', function(event, d) {
                 tooltip.html(`
-                    <strong>Player:</strong> ${d.Player}<br/>
-                    <strong>Team:</strong> ${d.Tm}<br/>
-                    <strong>Points:</strong> ${d.pts}<br/>
-                    <strong>Rebounds:</strong> ${d.trb}<br/>
-                    <strong>Assists:</strong> ${d.ast}<br/>
-                    <strong>Steals:</strong> ${d.stl}
+                    <p> DSFDSSFs </p>
+                    
                 `)
                 .style('left', (event.pageX + 10) + 'px')
                 .style('top', (event.pageY - 28) + 'px')
