@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    d3.csv('data/cleaned_nba_playoff_stats.csv').then(function(data) {
+    d3.csv('cleaned_nba_playoff_stats.csv').then(function(data) {
         data.forEach(function(d) {
             d.pts = +d.PTS;
             d.fg_perc = +d['FG%'];
@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .attr('fill', d => colorScale(d.Tm))
             .attr('stroke', 'black')
             .attr('stroke-width', 1)
-            .on('click', function(event, d) {
+            .on('mouseover', function(event, d) {
                 tooltip.html(`
                     <strong>Player:</strong> ${d.Player}<br/>
                     <strong>Team:</strong> ${d.Tm}<br/>
@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .text('3-Point Percentage');
 
         svg1.append('text')
-            .attr('x', -550)
+            .attr('x', -350)  // Adjusted for more space
             .attr('y', 20)
             .attr('text-anchor', 'middle')
             .attr('font-size', '12px')
