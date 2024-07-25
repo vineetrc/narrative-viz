@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    d3.csv('cleaned_nba_playoff_stats.csv').then(function(data) {
+    d3.csv('./data/cleaned_nba_playoff_stats.csv').then(function(data) {
         data.forEach(function(d) {
             d.pts = +d.PTS;
             d.fg_perc = +d['FG%'];
@@ -30,9 +30,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const colorScale = d3.scaleOrdinal(d3.schemeCategory10);
 
-        const tooltip = d3.select('body').append('div')
-            .attr('class', 'tooltip');
-
         svg1.selectAll('circle')
             .data(data)
             .enter()
@@ -43,18 +40,8 @@ document.addEventListener('DOMContentLoaded', function() {
             .attr('fill', d => colorScale(d.Tm))
             .attr('stroke', 'black')
             .attr('stroke-width', 1)
-            .on('mouseover', function(event, d) {
-                tooltip.html(`
-                    <p> DSFDSSFs </p>
-                    
-                `)
-                .style('left', (event.pageX + 10) + 'px')
-                .style('top', (event.pageY - 28) + 'px')
-                .style('visibility', 'visible');
-            })
-            .on('mouseout', function() {
-                tooltip.style('visibility', 'hidden');
-            });
+            .append('title')
+            .text(d => `${d.Player}: ${d.pts} points`);
 
         svg1.append('g')
             .attr('transform', 'translate(0, 550)')
@@ -78,6 +65,36 @@ document.addEventListener('DOMContentLoaded', function() {
             .attr('font-size', '12px')
             .attr('transform', 'rotate(-90)')
             .text('2-Point Percentage');
+
+        // Adding annotations to two circles
+        const annotations = [
+            {
+                note: {
+                    label: "Top Scorer",
+                    title: "Player A"
+                },
+                x: xScale(data[0].threep_perc),
+                y: yScale(data[0].twop_perc),
+                dy: -30,
+                dx: 30
+            },
+            {
+                note: {
+                    label: "High Accuracy",
+                    title: "Player B"
+                },
+                x: xScale(data[1].threep_perc),
+                y: yScale(data[1].twop_perc),
+                dy: -30,
+                dx: 30
+            }
+        ];
+
+        const makeAnnotations = d3.annotation()
+            .annotations(annotations);
+
+        svg1.append('g')
+            .call(makeAnnotations);
     });
 });
 
