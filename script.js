@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .append('circle')
             .attr('cx', d => xScale(d.threep_perc))
             .attr('cy', d => yScale(d.twop_perc))
-            .attr('r', d => rScale(d.pts))
+            .attr('r', d => (rScale(d.pts)/2)**3)
             .attr('fill', d => colorScale(d.Pos))
             .attr('stroke', 'black')
             .attr('stroke-width', 1)
@@ -73,11 +73,11 @@ document.addEventListener('DOMContentLoaded', function() {
             .attr('y', 590)
             .attr('text-anchor', 'middle')
             .attr('font-size', '12px')
-            .text('3-Point Percentage');
+            .text('3-Point BOBOBOBOBOB Percentage');
 
         svg1.append('text')
             .attr('x', -350)
-            .attr('y', 20)
+            .attr('y', 0)
             .attr('text-anchor', 'middle')
             .attr('font-size', '12px')
             .attr('transform', 'rotate(-90)')
