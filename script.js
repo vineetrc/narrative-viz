@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
             d.stl = +d.STL;
         });
 
-        // Scene 1: Scatterplot of 3P% vs 2P% with circle size representing average points and color representing team
+        // Scene 1: Scatterplot of 3P% vs 2P% with circle size representing average points and color representing position
         const svg1 = d3.select('#chart1')
             .append('svg')
             .attr('width', 800)
@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .attr('cx', d => xScale(d.threep_perc))
             .attr('cy', d => yScale(d.twop_perc))
             .attr('r', d => rScale(d.pts))
-            .attr('fill', d => colorScale(d.Tm))
+            .attr('fill', d => colorScale(d.Pos))
             .attr('stroke', 'black')
             .attr('stroke-width', 1)
             .on('mouseover', function(event, d) {
@@ -73,15 +73,36 @@ document.addEventListener('DOMContentLoaded', function() {
             .attr('y', 590)
             .attr('text-anchor', 'middle')
             .attr('font-size', '12px')
-            .text('3-Point JUOL Percentage');
+            .text('3-Point Percentage');
 
         svg1.append('text')
-            .attr('x', -350)  // Adjusted for more space
+            .attr('x', -350)
             .attr('y', 20)
             .attr('text-anchor', 'middle')
             .attr('font-size', '12px')
             .attr('transform', 'rotate(-90)')
             .text('2-Point Percentage');
+
+        // Add legend
+        const legend = svg1.selectAll('.legend')
+            .data(colorScale.domain())
+            .enter()
+            .append('g')
+            .attr('class', 'legend')
+            .attr('transform', (d, i) => `translate(0, ${i * 20})`);
+
+        legend.append('rect')
+            .attr('x', 700)
+            .attr('width', 18)
+            .attr('height', 18)
+            .style('fill', colorScale);
+
+        legend.append('text')
+            .attr('x', 690)
+            .attr('y', 9)
+            .attr('dy', '.35em')
+            .style('text-anchor', 'end')
+            .text(d => d);
     });
 });
 
