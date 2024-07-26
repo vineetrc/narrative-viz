@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .attr('width', 800)
             .attr('height', 600);
 
-        const xScale = d3.scaleLog()
+        const xScale = d3.scaleLinear()
             .domain([d3.min(data, d => d.threep_perc), d3.max(data, d => d.threep_perc)])
             .range([50, 750]);
 
@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         svg1.append('g')
             .attr('transform', 'translate(0, 550)')
-            .call(d3.axisBottom(xScale).ticks(10).tickFormat(d3.format(".1f")));
+            .call(d3.axisBottom(xScale).ticks(10).tickFormat(d => d + "%"));
 
         svg1.append('g')
             .attr('transform', 'translate(50, 0)')
@@ -76,8 +76,8 @@ document.addEventListener('DOMContentLoaded', function() {
             .text('3-Point Percentage');
 
         svg1.append('text')
-            .attr('x', -350)
-            .attr('y', 20)
+            .attr('x', -350)  // Adjusted for more space
+            .attr('y', 75)
             .attr('text-anchor', 'middle')
             .attr('font-size', '12px')
             .attr('transform', 'rotate(-90)')
