@@ -73,10 +73,10 @@ document.addEventListener('DOMContentLoaded', function() {
             .attr('y', 590)
             .attr('text-anchor', 'middle')
             .attr('font-size', '12px')
-            .text('3-Point  JUL Percentage');
+            .text('3-Point LOLOLO Percentage');
 
         svg1.append('text')
-            .attr('x', -350)
+            .attr('x', -400)  // Adjusted for more space
             .attr('y', 20)
             .attr('text-anchor', 'middle')
             .attr('font-size', '12px')
@@ -113,8 +113,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 },
                 x: xScale(data.find(d => d.Player === "Anthony Davis").threep_perc),
                 y: yScale(data.find(d => d.Player === "Anthony Davis").twop_perc),
-                dx: 30,
-                dy: -30
+                dx: 60,
+                dy: -60
             },
             {
                 note: {
@@ -123,13 +123,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 },
                 x: xScale(data.find(d => d.Player === "Damian Lillard").threep_perc),
                 y: yScale(data.find(d => d.Player === "Damian Lillard").twop_perc),
-                dx: 30,
-                dy: -30
+                dx: -90,
+                dy: -40
             }
         ];
 
         const makeAnnotations = d3.annotation()
-            .annotations(annotations);
+            .annotations(annotations)
+            .type(d3.annotationCalloutCircle);
 
         svg1.append('g')
             .call(makeAnnotations);
