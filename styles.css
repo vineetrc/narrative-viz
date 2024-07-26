@@ -43,3 +43,16 @@ button {
     margin: 0 1em;
     /* position: fixed; */
 }
+
+.tooltip {
+    position: absolute;
+    text-align: center;
+    width: auto;
+    padding: 10px;
+    font-size: 12px;
+    background: lightsteelblue;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    pointer-events: none;
+    visibility: hidden;
+}
