@@ -16,12 +16,12 @@ document.addEventListener('DOMContentLoaded', function() {
             .attr('width', 800)
             .attr('height', 600);
 
-        const xScale = d3.scaleLinear()
-            .domain([0, d3.max(data, d => d.threep_perc)])
+        const xScale = d3.scaleLog()
+            .domain([d3.min(data, d => d.threep_perc), d3.max(data, d => d.threep_perc)])
             .range([50, 750]);
 
         const yScale = d3.scaleLinear()
-            .domain([0, d3.max(data, d => d.twop_perc)])
+            .domain([0.35, d3.max(data, d => d.twop_perc)])
             .range([550, 50]);
 
         const rScale = d3.scaleSqrt()
@@ -30,22 +30,39 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const colorScale = d3.scaleOrdinal(d3.schemeCategory10);
 
+        const tooltip = d3.select('body').append('div')
+            .attr('class', 'tooltip');
+
         svg1.selectAll('circle')
             .data(data)
             .enter()
             .append('circle')
             .attr('cx', d => xScale(d.threep_perc))
             .attr('cy', d => yScale(d.twop_perc))
-            .attr('r', d => rScale((d.pts/2)**1.6))
+            .attr('r', d => rScale(d.pts))
             .attr('fill', d => colorScale(d.Tm))
             .attr('stroke', 'black')
             .attr('stroke-width', 1)
-            .append('title')
-            .text(d => `${d.Player}: ${d.pts} points`);
+            .on('mouseover', function(event, d) {
+                tooltip.html(`
+                    <strong>Player:</strong> ${d.Player}<br/>
+                    <strong>Team:</strong> ${d.Tm}<br/>
+                    <strong>Points:</strong> ${d.pts}<br/>
+                    <strong>Rebounds:</strong> ${d.trb}<br/>
+                    <strong>Assists:</strong> ${d.ast}<br/>
+                    <strong>Steals:</strong> ${d.stl}
+                `)
+                .style('left', (event.pageX + 10) + 'px')
+                .style('top', (event.pageY - 28) + 'px')
+                .style('visibility', 'visible');
+            })
+            .on('mouseout', function() {
+                tooltip.style('visibility', 'hidden');
+            });
 
         svg1.append('g')
             .attr('transform', 'translate(0, 550)')
-            .call(d3.axisBottom(xScale).ticks(10).tickFormat(d => d + "%"));
+            .call(d3.axisBottom(xScale).ticks(10).tickFormat(d3.format(".1f")));
 
         svg1.append('g')
             .attr('transform', 'translate(50, 0)')
@@ -59,42 +76,12 @@ document.addEventListener('DOMContentLoaded', function() {
             .text('3-Point Percentage');
 
         svg1.append('text')
-            .attr('x', -550)  // Adjusted for more space
+            .attr('x', -350)
             .attr('y', 20)
             .attr('text-anchor', 'middle')
             .attr('font-size', '12px')
             .attr('transform', 'rotate(-90)')
             .text('2-Point Percentage');
-
-        // Adding annotations to two circles
-        const annotations = [
-            {
-                note: {
-                    label: "Top Scorer",
-                    title: "Playsdfdsdfsder A"
-                },
-                x: xScale(data[0].threep_perc),
-                y: yScale(data[0].twop_perc),
-                dy: -30,
-                dx: 30
-            },
-            {
-                note: {
-                    label: "Highsome chansdfsdf Accuracy",
-                    title: "Player B"
-                },
-                x: xScale(data[1].threep_perc),
-                y: yScale(data[1].twop_perc),
-                dy: -30,
-                dx: 30
-            }
-        ];
-
-        const makeAnnotations = d3.annotation()
-            .annotations(annotations);
-
-        svg1.append('g')
-            .call(makeAnnotations);
     });
 });
 
