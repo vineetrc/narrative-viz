@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .attr('y', 590)
             .attr('text-anchor', 'middle')
             .attr('font-size', '12px')
-            .text('3-Point LOLOLO Percentage');
+            .text('3-Point  HOHOHOOH Percentage');
 
         svg1.append('text')
             .attr('x', -400)  // Adjusted for more space
@@ -129,8 +129,7 @@ document.addEventListener('DOMContentLoaded', function() {
         ];
 
         const makeAnnotations = d3.annotation()
-            .annotations(annotations)
-            .type(d3.annotationCalloutCircle);
+            .annotations(annotations);
 
         svg1.append('g')
             .call(makeAnnotations);
