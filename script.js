@@ -73,11 +73,11 @@ document.addEventListener('DOMContentLoaded', function() {
             .attr('y', 590)
             .attr('text-anchor', 'middle')
             .attr('font-size', '12px')
-            .text('3-Point BOB Percentage');
+            .text('3-Point JUOL Percentage');
 
         svg1.append('text')
             .attr('x', -350)  // Adjusted for more space
-            .attr('y', -10)
+            .attr('y', 20)
             .attr('text-anchor', 'middle')
             .attr('font-size', '12px')
             .attr('transform', 'rotate(-90)')
