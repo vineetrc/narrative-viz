@@ -76,8 +76,8 @@ document.addEventListener('DOMContentLoaded', function() {
             .text('3-Point Percentage');
 
         svg1.append('text')
-            .attr('x', -400)  // Adjusted for more space
-            .attr('y', 20)
+            .attr('x', -500)  // Adjusted for more space
+            .attr('y', 60)
             .attr('text-anchor', 'middle')
             .attr('font-size', '12px')
             .attr('transform', 'rotate(-90)')
