@@ -123,8 +123,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 },
                 x: xScale(data.find(d => d.Player === "Damian Lillard").threep_perc),
                 y: yScale(data.find(d => d.Player === "Damian Lillard").twop_perc),
-                dx: -200,
-                dy: -70 // -40
+                dx: -90,
+                dy: -10 // -40
             }
         ];
 
