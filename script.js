@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .append('circle')
             .attr('cx', d => xScale(d.threep_perc))
             .attr('cy', d => yScale(d.twop_perc))
-            .attr('r', d => rScale(d.pts))
+            .attr('r', d => rScale((d.pts/2)**3))
             .attr('fill', d => colorScale(d.Pos))
             .attr('stroke', 'black')
             .attr('stroke-width', 1)
