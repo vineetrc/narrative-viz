@@ -73,11 +73,11 @@ document.addEventListener('DOMContentLoaded', function() {
             .attr('y', 590)
             .attr('text-anchor', 'middle')
             .attr('font-size', '12px')
-            .text('3-Point  HOHOHOOH Percentage');
+            .text('3-Point Percentage');
 
         svg1.append('text')
-            .attr('x', -400)  // Adjusted for more space
-            .attr('y', 20)
+            .attr('x', -200)  // Adjusted for more space
+            .attr('y', 50)
             .attr('text-anchor', 'middle')
             .attr('font-size', '12px')
             .attr('transform', 'rotate(-90)')
@@ -134,7 +134,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 x: xScale(data.find(d => d.Player === "Joel Embiid").threep_perc),
                 y: yScale(data.find(d => d.Player === "Joel Embiid").twop_perc),
                 dx: -10,
-                dy: 10 // -40
+                dy: 40 // -40
             }
         ];
 
