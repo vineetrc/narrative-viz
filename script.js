@@ -124,7 +124,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 x: xScale(data.find(d => d.Player === "Damian Lillard").threep_perc),
                 y: yScale(data.find(d => d.Player === "Damian Lillard").twop_perc),
                 dx: -90,
-                dy: -10 // -40
+                dy: 40 // -40
+            },
+            {
+                note: {
+                    label: "Joel Embiid",
+                    title: "Highest Scorer"
+                },
+                x: xScale(data.find(d => d.Player === "Joel Embiid").threep_perc),
+                y: yScale(data.find(d => d.Player === "Joel Embiid").twop_perc),
+                dx: -10,
+                dy: 10 // -40
             }
         ];
 
