@@ -2,9 +2,9 @@ document.addEventListener('DOMContentLoaded', function() {
     d3.csv('./data/top_scorers_by_team.csv').then(function(data) {
         data.forEach(function(d) {
             d.pts = +d.PTS;
-            d.fg_perc = +d['FG%'];
-            d.threep_perc = +d['3P%'];
-            d.twop_perc = +d['2P%'];
+            d.fg_perc = +d['FG%']*100;
+            d.threep_perc = +d['3P%']*100;
+            d.twop_perc = +d['2P%']*100;
             d.trb = +d.TRB;
             d.ast = +d.AST;
             d.stl = +d.STL;
@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .text('3-Point Percentage');
 
         svg1.append('text')
-            .attr('x', -200)  // Adjusted for more space
+            .attr('x', -100)  // Adjusted for more space
             .attr('y', 50)
             .attr('text-anchor', 'middle')
             .attr('font-size', '12px')
