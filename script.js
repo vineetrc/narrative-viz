@@ -109,7 +109,7 @@ document.addEventListener('DOMContentLoaded', function() {
             {
                 note: {
                     label: "Anthony Davis",
-                    title: "High 2P%, Low 3P%"
+                    title: "High 2P%"
                 },
                 x: xScale(data.find(d => d.Player === "Anthony Davis").threep_perc),
                 y: yScale(data.find(d => d.Player === "Anthony Davis").twop_perc),
@@ -119,7 +119,7 @@ document.addEventListener('DOMContentLoaded', function() {
             {
                 note: {
                     label: "Damian Lillard",
-                    title: "High 3P%, Low 2P%"
+                    title: "High 3P%"
                 },
                 x: xScale(data.find(d => d.Player === "Damian Lillard").threep_perc),
                 y: yScale(data.find(d => d.Player === "Damian Lillard").twop_perc),
