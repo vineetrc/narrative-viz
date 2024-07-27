@@ -143,6 +143,140 @@ document.addEventListener('DOMContentLoaded', function() {
 
         svg1.append('g')
             .call(makeAnnotations);
+
+
+
+            // Scene 2: Scatterplot of MP vs FTA with circle size representing average points and color representing position
+            const svg2 = d3.select('#chart2')
+                .append('svg')
+                .attr('width', 800)
+                .attr('height', 600);
+    
+            const xScale2 = d3.scaleLinear()
+                .domain([d3.min(data, d => d.mp), d3.max(data, d => d.mp)])
+                .range([50, 750]);
+    
+            const yScale2 = d3.scaleLinear()
+                .domain([d3.min(data, d => d.fta), d3.max(data, d => d.fta)])
+                .range([550, 50]);
+    
+            const rScale2 = d3.scaleSqrt()
+                .domain([0, d3.max(data, d => d.pts)])
+                .range([5, 20]);
+    
+            svg2.selectAll('circle')
+                .data(data)
+                .enter()
+                .append('circle')
+                .attr('cx', d => xScale2(d.mp))
+                .attr('cy', d => yScale2(d.fta))
+                .attr('r', d => rScale2((d.pts/2)**1.5))
+                .attr('fill', d => colorScale(d.Pos))
+                .attr('stroke', 'black')
+                .attr('stroke-width', 1)
+                .on('mouseover', function(event, d) {
+                    tooltip.html(`
+                        <strong>Player:</strong> ${d.Player}<br/>
+                        <strong>Team:</strong> ${d.Tm}<br/>
+                        <strong>Points:</strong> ${d.pts}<br/>
+                        <strong>Rebounds:</strong> ${d.trb}<br/>
+                        <strong>Assists:</strong> ${d.ast}<br/>
+                        <strong>Steals:</strong> ${d.stl}<br/>
+                        <strong>Minutes Played:</strong> ${d.mp}<br/>
+                        <strong>Free Throws Attempted:</strong> ${d.fta}
+                    `)
+                    .style('left', (event.pageX + 10) + 'px')
+                    .style('top', (event.pageY - 28) + 'px')
+                    .style('visibility', 'visible');
+                })
+                .on('mouseout', function() {
+                    tooltip.style('visibility', 'hidden');
+                });
+    
+            svg2.append('g')
+                .attr('transform', 'translate(0, 550)')
+                .call(d3.axisBottom(xScale2).ticks(10).tickFormat(d => d + " MP"));
+    
+            svg2.append('g')
+                .attr('transform', 'translate(50, 0)')
+                .call(d3.axisLeft(yScale2).ticks(10).tickFormat(d => d + " FTA"));
+    
+            svg2.append('text')
+                .attr('x', 400)
+                .attr('y', 590)
+                .attr('text-anchor', 'middle')
+                .attr('font-size', '12px')
+                .text('Minutes Played');
+
+                svg2.append('text')
+                .attr('x', -400)
+                .attr('y', 20)
+                .attr('text-anchor', 'middle')
+                .attr('font-size', '12px')
+                .attr('transform', 'rotate(-90)')
+                .text('Free Throws Attempted');
+    
+            // Add legend for second scene
+            const legend2 = svg2.selectAll('.legend')
+                .data(colorScale.domain())
+                .enter()
+                .append('g')
+                .attr('class', 'legend')
+                .attr('transform', (d, i) => `translate(0, ${i * 20})`);
+    
+            legend2.append('rect')
+                .attr('x', 700)
+                .attr('width', 18)
+                .attr('height', 18)
+                .style('fill', colorScale);
+    
+            legend2.append('text')
+                .attr('x', 690)
+                .attr('y', 9)
+                .attr('dy', '.35em')
+                .style('text-anchor', 'end')
+                .text(d => d);
+    
+            // Add annotations for the second scene
+            const annotations2 = [
+                {
+                    note: {
+                        label: "Anthony Davis",
+                        title: "High MP/FTA"
+                    },
+                    x: xScale2(data.find(d => d.Player === "Anthony Davis").mp),
+                    y: yScale2(data.find(d => d.Player === "Anthony Davis").fta),
+                    dx: 60,
+                    dy: 60
+                },
+                {
+                    note: {
+                        label: "Damian Lillard",
+                        title: "High MP/FTA"
+                    },
+                    x: xScale2(data.find(d => d.Player === "Damian Lillard").mp),
+                    y: yScale2(data.find(d => d.Player === "Damian Lillard").fta),
+                    dx: -90,
+                    dy: 40
+                },
+                {
+                    note: {
+                        label: "Joel Embiid",
+                        title: "Highest MP/FTA"
+                    },
+                    x: xScale2(data.find(d => d.Player === "Joel Embiid").mp),
+                    y: yScale2(data.find(d => d.Player === "Joel Embiid").fta),
+                    dx: -10,
+                    dy: 40
+                }
+            ];
+    
+            const makeAnnotations2 = d3.annotation()
+                .annotations(annotations2);
+    
+            svg2.append('g')
+                .call(makeAnnotations2);
+        
     });
 });
 
