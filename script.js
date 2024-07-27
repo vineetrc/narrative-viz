@@ -8,6 +8,8 @@ document.addEventListener('DOMContentLoaded', function() {
             d.trb = +d.TRB;
             d.ast = +d.AST;
             d.stl = +d.STL;
+            d.mp = +d.MP;
+            d.fta = +d.FTA;
         });
 
         // Scene 1: Scatterplot of 3P% vs 2P% with circle size representing average points and color representing position
