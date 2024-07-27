@@ -17,11 +17,11 @@ document.addEventListener('DOMContentLoaded', function() {
             .attr('height', 600);
 
         const xScale = d3.scaleLinear()
-            .domain([d3.min(data, d => d.threep_perc), d3.max(data, d => d.threep_perc)])
+            .domain([d3.min(data, d => d.threep_perc), 45]) //            .domain([d3.min(data, d => d.threep_perc), d3.max(data, d => d.threep_perc)])
             .range([50, 750]);
 
         const yScale = d3.scaleLinear()
-            .domain([0.35, d3.max(data, d => d.twop_perc)])
+            .domain([30, 70])             // .domain([30, d3.max(data, d => d.twop_perc)])
             .range([550, 50]);
 
         const rScale = d3.scaleSqrt()
