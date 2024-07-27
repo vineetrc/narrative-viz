@@ -124,7 +124,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 x: xScale(data.find(d => d.Player === "Damian Lillard").threep_perc),
                 y: yScale(data.find(d => d.Player === "Damian Lillard").twop_perc),
                 dx: -90,
-                dy: -40
+                dy: -70
             }
         ];
 
