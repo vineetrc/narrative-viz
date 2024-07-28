@@ -170,25 +170,27 @@ document.addEventListener('DOMContentLoaded', function() {
 
         console.log("Data", data);
         // Chart 2: Points by Team
-        const svg2 = d3.select('#chart2').append('svg')
+        const svgScene2 = d3.select('#chart2').append('svg')
             .attr('width', 1000)
             .attr('height', 700);
 
         // Nest data by team
-        const nestedData = d3.groups(data, d => d.Tm);
+        const nestedDataScene2 = d3.groups(data, d => d.Tm);
 
-        const teams = nestedData.map(d => d[0]);
+        const teamsScene2 = nestedDataScene2.map(d => d[0]);
 
-        const xScale2 = d3.scaleBand()
-            .domain(teams)
+        const xScaleScene2 = d3.scaleBand()
+            .domain(teamsScene2)
             .range([50, 950])
             .padding(0.1);
 
-        const yScale2 = d3.scaleLinear()
-            .domain([0, d3.max(nestedData, d => d3.sum(d[1], v => v.pts))])
+        const yScaleScene2 = d3.scaleLinear()
+            .domain([0, d3.max(nestedDataScene2, d => d3.sum(d[1], v => v.pts))])
             .range([650, 50]);
 
-        nestedData.forEach(d => {
+        const colorScaleScene2 = d3.scaleOrdinal(d3.schemeCategory10);
+
+        nestedDataScene2.forEach(d => {
             const team = d[0];
             const players = d[1];
 
@@ -197,12 +199,12 @@ document.addEventListener('DOMContentLoaded', function() {
             players.forEach(player => {
                 const y1 = y0 + player.pts;
 
-                svg2.append('rect')
-                    .attr('x', xScale2(team))
-                    .attr('y', yScale2(y1))
-                    .attr('width', xScale2.bandwidth())
-                    .attr('height', yScale2(y0) - yScale2(y1))
-                    .attr('fill', colorScale(player.Pos))
+                svgScene2.append('rect')
+                    .attr('x', xScaleScene2(team))
+                    .attr('y', yScaleScene2(y1))
+                    .attr('width', xScaleScene2.bandwidth())
+                    .attr('height', yScaleScene2(y0) - yScaleScene2(y1))
+                    .attr('fill', colorScaleScene2(player.Pos))
                     .on('mouseover', function(event) {
                         tooltip.html(`
                             <strong>Player:</strong> ${player.Player}<br/>
@@ -224,26 +226,26 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
 
-        svg2.append('g')
+        svgScene2.append('g')
             .attr('transform', 'translate(0, 650)')
-            .call(d3.axisBottom(xScale2).tickFormat(d => d).tickSizeOuter(0))
+            .call(d3.axisBottom(xScaleScene2).tickFormat(d => d).tickSizeOuter(0))
             .selectAll('text')
             .attr('transform', 'rotate(-45)')
             .style('text-anchor', 'end')
             .style('font-size', '10px');
 
-        svg2.append('g')
+        svgScene2.append('g')
             .attr('transform', 'translate(50, 0)')
-            .call(d3.axisLeft(yScale2).ticks(10));
+            .call(d3.axisLeft(yScaleScene2).ticks(10));
 
-        svg2.append('text')
+        svgScene2.append('text')
             .attr('x', 500)
             .attr('y', 690)
             .attr('text-anchor', 'middle')
             .attr('font-size', '12px')
             .text('Teams');
 
-        svg2.append('text')
+        svgScene2.append('text')
             .attr('x', -300)
             .attr('y', 20)
             .attr('text-anchor', 'middle')
@@ -251,44 +253,44 @@ document.addEventListener('DOMContentLoaded', function() {
             .attr('transform', 'rotate(-90)')
             .text('Total Points');
 
-        const legend2 = svg2.selectAll('.legend')
-            .data(colorScale.domain())
+        const legendScene2 = svgScene2.selectAll('.legend')
+            .data(colorScaleScene2.domain())
             .enter()
             .append('g')
             .attr('class', 'legend')
             .attr('transform', (d, i) => `translate(0, ${i * 20})`);
 
-        legend2.append('rect')
+        legendScene2.append('rect')
             .attr('x', 900)
             .attr('width', 18)
             .attr('height', 18)
-            .style('fill', colorScale);
+            .style('fill', colorScaleScene2);
 
-        legend2.append('text')
+        legendScene2.append('text')
             .attr('x', 880)
             .attr('y', 9)
             .attr('dy', '.35em')
             .style('text-anchor', 'end')
             .text(d => d);
 
-        const annotations2 = [
+        const annotationsScene2 = [
             {
                 note: {
                     label: "",
                     title: "23-24 NBA Champions"
                 },
-                x: xScale2(data[14].Tm) + xScale2.bandwidth() / 2,
-                y: yScale2(data[14].pts),
+                x: xScaleScene2(data[14].Tm) + xScaleScene2.bandwidth() / 2,
+                y: yScaleScene2(data[14].pts),
                 dx: 60,
                 dy: -60
             },
         ];
 
-        const makeAnnotations2 = d3.annotation()
-            .annotations(annotations2);
+        const makeAnnotationsScene2 = d3.annotation()
+            .annotations(annotationsScene2);
 
-        svg2.append('g')
-            .call(makeAnnotations2);
+        svgScene2.append('g')
+            .call(makeAnnotationsScene2);
 
         // Chart 3: Effective Field Goal Percentage vs Points
         const svg3 = d3.select('#chart3').append('svg')
