@@ -284,7 +284,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 },
                 x: xScaleScene2("BOS") + xScaleScene2.bandwidth() / 2,
                 y: yScaleScene2(bosTotalPoints),
-                dx: -60,
+                dx: -40,
                 dy: -60
             },
         ];
