@@ -242,8 +242,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const annotations2 = [
             {
                 note: {
-                    label: "Highest Playoff Scorer",
-                    title: data[0].Player
+                    label: "",
+                    title: "Highest Playoff Scorer"
                 },
                 x: xScale2(data[0].Tm) + xScale2.bandwidth() / 2,
                 y: yScale2(data[0].pts),
@@ -252,8 +252,8 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             {
                 note: {
-                    label: "League MVP",
-                    title: data[5].Player
+                    label: "",
+                    title: "League MVP"
                 },
                 x: xScale2(data[5].Tm) + xScale2.bandwidth() / 2,
                 y: yScale2(data[5].pts),
