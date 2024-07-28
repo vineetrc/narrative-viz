@@ -174,57 +174,43 @@ document.addEventListener('DOMContentLoaded', function() {
             .attr('width', 1000)
             .attr('height', 700);
 
-        // Nest data by team
-        const nestedData = d3.groups(data, d => d.Tm);
-
-        const teams = nestedData.map(d => d[0]);
+        data.sort((a, b) => b.pts - a.pts);
 
         const xScale2 = d3.scaleBand()
-            .domain(teams)
+            .domain(data.map(d => d.Tm))
             .range([50, 950])
             .padding(0.1);
 
         const yScale2 = d3.scaleLinear()
-            .domain([0, d3.max(nestedData, d => d3.sum(d[1], v => v.pts))])
+            .domain([0, 40])
             .range([650, 50]);
 
-        const colorScale = d3.scaleOrdinal(d3.schemeCategory10);
-
-        nestedData.forEach(d => {
-            const team = d[0];
-            const players = d[1];
-
-            let y0 = 0;
-
-            players.forEach(player => {
-                const y1 = y0 + player.pts;
-
-                svg2.append('rect')
-                    .attr('x', xScale2(team))
-                    .attr('y', yScale2(y1))
-                    .attr('width', xScale2.bandwidth())
-                    .attr('height', yScale2(y0) - yScale2(y1))
-                    .attr('fill', colorScale(player.Pos))
-                    .on('mouseover', function(event) {
-                        tooltip.html(`
-                            <strong>Player:</strong> ${player.Player}<br/>
-                            <strong>Team:</strong> ${player.Tm}<br/>
-                            <strong>Points:</strong> ${player.pts}<br/>
-                            <strong>Rebounds:</strong> ${player.trb}<br/>
-                            <strong>Assists:</strong> ${player.ast}<br/>
-                            <strong>Steals:</strong> ${player.stl}
-                        `)
-                        .style('left', (event.pageX + 10) + 'px')
-                        .style('top', (event.pageY - 28) + 'px')
-                        .style('visibility', 'visible');
-                    })
-                    .on('mouseout', function() {
-                        tooltip.style('visibility', 'hidden');
-                    });
-
-                y0 = y1;
+        svg2.selectAll('.bar')
+            .data(data)
+            .enter()
+            .append('rect')
+            .attr('class', 'bar')
+            .attr('x', d => xScale2(d.Tm))
+            .attr('y', d => yScale2(d.pts))
+            .attr('width', xScale2.bandwidth())
+            .attr('height', d => 650 - yScale2(d.pts))
+            .attr('fill', d => colorScale(d.Pos))
+            .on('mouseover', function(event, d) {
+                tooltip.html(`
+                    <strong>Player:</strong> ${d.Player}<br/>
+                    <strong>Team:</strong> ${d.Tm}<br/>
+                    <strong>Points:</strong> ${d.pts}<br/>
+                    <strong>Rebounds:</strong> ${d.trb}<br/>
+                    <strong>Assists:</strong> ${d.ast}<br/>
+                    <strong>Steals:</strong> ${d.stl}
+                `)
+                .style('left', (event.pageX + 10) + 'px')
+                .style('top', (event.pageY - 28) + 'px')
+                .style('visibility', 'visible');
+            })
+            .on('mouseout', function() {
+                tooltip.style('visibility', 'hidden');
             });
-        });
 
         svg2.append('g')
             .attr('transform', 'translate(0, 650)')
@@ -251,7 +237,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .attr('text-anchor', 'middle')
             .attr('font-size', '12px')
             .attr('transform', 'rotate(-90)')
-            .text('Total Points');
+            .text('Points');
 
         const legend2 = svg2.selectAll('.legend')
             .data(colorScale.domain())
