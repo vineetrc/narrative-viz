@@ -273,14 +273,17 @@ document.addEventListener('DOMContentLoaded', function() {
             .style('text-anchor', 'end')
             .text(d => d);
 
+        const bosTeamData = nestedDataScene2.find(d => d[0] === "BOS");
+        const bosTotalPoints = d3.sum(bosTeamData[1], d => d.pts);
+
         const annotationsScene2 = [
             {
                 note: {
                     label: "",
                     title: "23-24 NBA Champions"
                 },
-                x: xScaleScene2(data[205].Tm) + xScaleScene2.bandwidth() / 2,
-                y: yScaleScene2(data[205].pts),
+                x: xScaleScene2("BOS") + xScaleScene2.bandwidth() / 2,
+                y: yScaleScene2(bosTotalPoints),
                 dx: 60,
                 dy: -60
             },
