@@ -279,8 +279,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     label: "",
                     title: "23-24 NBA Champions"
                 },
-                x: xScaleScene2(data[14].Tm) + xScaleScene2.bandwidth() / 2,
-                y: yScaleScene2(data[14].pts),
+                x: xScaleScene2(data[205].Tm) + xScaleScene2.bandwidth() / 2,
+                y: yScaleScene2(data[205].pts),
                 dx: 60,
                 dy: -60
             },
