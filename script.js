@@ -238,28 +238,28 @@ document.addEventListener('DOMContentLoaded', function() {
             .style('text-anchor', 'end')
             .text(d => d);
 
-        // Add annotations for Joel Embiid and Nikola Jokic
+        // Add annotations for the second scene
         const annotations2 = [
             {
                 note: {
-                    label: "Joel Embiid",
-                    title: "Highest Scorer"
+                    label: "Highest Playoff Scorer",
+                    title: data[0].Player
                 },
-                x: xScale2(data.find(d => d.Player === "Joel Embiid").Tm) + xScale2.bandwidth() / 2,
-                y: yScale2(data.find(d => d.Player === "Joel Embiid").pts),
+                x: xScale2(data[0].Tm) + xScale2.bandwidth() / 2,
+                y: yScale2(data[0].pts),
                 dx: 60,
                 dy: -60
             },
             {
                 note: {
-                    label: "Nikola Jokic",
-                    title: "High Scorer"
+                    label: "League MVP",
+                    title: data[5].Player
                 },
-                x: xScale2(data.find(d => d.Player === "Nikola Jokic").Tm) + xScale2.bandwidth() / 2,
-                y: yScale2(data.find(d => d.Player === "Nikola Jokic").pts),
-                dx: -90,
+                x: xScale2(data[5].Tm) + xScale2.bandwidth() / 2,
+                y: yScale2(data[5].pts),
+                dx: 90,
                 dy: -40
-            }
+            },
         ];
 
         const makeAnnotations2 = d3.annotation()
@@ -307,4 +307,3 @@ function prevScene() {
 
 // Initially show the first scene
 showScene(currentScene);
-
