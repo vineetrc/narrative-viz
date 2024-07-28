@@ -36,6 +36,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Filter the data for the first scene
         const TopPlayerData = data.filter(d => player_lead_data.includes(d.Player));
         console.log("Top players", TopPlayerData);
+
         // Chart 1: 3P% vs 2P%
         const svg1 = d3.select('#chart1').append('svg')
             .attr('width', 1000)
@@ -167,14 +168,8 @@ document.addEventListener('DOMContentLoaded', function() {
         svg1.append('g')
             .call(makeAnnotations1);
 
-        // Other scene data and logic (scenes 2 and 3) remain the same.
-        // ...
-    });
-});
-
-
-        const svg2 = d3.select('#chart2')
-            .append('svg')
+        // Chart 2: Points by Team
+        const svg2 = d3.select('#chart2').append('svg')
             .attr('width', 1000)
             .attr('height', 700);
 
@@ -292,8 +287,8 @@ document.addEventListener('DOMContentLoaded', function() {
         svg2.append('g')
             .call(makeAnnotations2);
 
-        const svg3 = d3.select('#chart3')
-            .append('svg')
+        // Chart 3: Effective Field Goal Percentage vs Points
+        const svg3 = d3.select('#chart3').append('svg')
             .attr('width', 1000)
             .attr('height', 700);
 
