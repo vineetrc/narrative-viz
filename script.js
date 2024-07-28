@@ -262,17 +262,23 @@ document.addEventListener('DOMContentLoaded', function() {
             },
         ];
 
+        // const makeAnnotations2 = d3.annotation()
+        //     .annotations(annotations2)
+        //     .type(d3.annotationLabel)
+        //     .accessors({
+        //         x: d => xScale2(d.Tm) + xScale2.bandwidth() / 2,
+        //         y: d => yScale2(d.pts)
+        //     })
+        //     .accessorsInverse({
+        //         Tm: d => xScale2.invert(d.x),
+        //         pts: d => yScale2.invert(d.y)
+        //     });
+
+        // svg2.append('g')
+        //     .call(makeAnnotations2);
+
         const makeAnnotations2 = d3.annotation()
-            .annotations(annotations2)
-            .type(d3.annotationLabel)
-            .accessors({
-                x: d => xScale2(d.Tm) + xScale2.bandwidth() / 2,
-                y: d => yScale2(d.pts)
-            })
-            .accessorsInverse({
-                Tm: d => xScale2.invert(d.x),
-                pts: d => yScale2.invert(d.y)
-            });
+            .annotations(annotations2);
 
         svg2.append('g')
             .call(makeAnnotations2);
