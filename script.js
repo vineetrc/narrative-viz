@@ -164,35 +164,35 @@ document.addEventListener('DOMContentLoaded', function() {
             .range([650, 50]); // Adjust range
 
         svg2.selectAll('.bar')
-            .data(data)
-            .enter()
-            .append('rect')
-            .attr('class', 'bar')
-            .attr('x', d => xScale2(d.Tm))
-            .attr('y', d => yScale2(d.pts))
-            .attr('width', xScale2.bandwidth())
-            .attr('height', d => 650 - yScale2(d.pts)) // Adjust height
-            .attr('fill', d => colorScale(d.Pos))
-            .on('mouseover', function(event, d) {
-                tooltip.html(`
-                    <strong>Player:</strong> ${d.Player}<br/>
-                    <strong>Team:</strong> ${d.Tm}<br/>
-                    <strong>Points:</strong> ${d.pts}<br/>
-                    <strong>Rebounds:</strong> ${d.trb}<br/>
-                    <strong>Assists:</strong> ${d.ast}<br/>
-                    <strong>Steals:</strong> ${d.stl}
-                `)
-                .style('left', (event.pageX + 10) + 'px')
-                .style('top', (event.pageY - 28) + 'px')
-                .style('visibility', 'visible');
-            })
-            .on('mouseout', function() {
-                tooltip.style('visibility', 'hidden');
-            })
-            .transition()  // Add transition
-            .duration(1000)  // Duration of the animation in milliseconds
-            .attr('y', d => yScale2(d.pts))  // Animate to the final y position
-            .attr('height', d => 650 - yScale2(d.pts));  // Animate to the final height
+        .data(data)
+        .enter()
+        .append('rect')
+        .attr('class', 'bar')
+        .attr('x', d => xScale2(d.Tm))
+        .attr('y', 650)  // Start from the bottom of the chart
+        .attr('width', xScale2.bandwidth())
+        .attr('height', 0)  // Initially set height to 0
+        .attr('fill', d => colorScale(d.Pos))
+        .on('mouseover', function(event, d) {
+            tooltip.html(`
+                <strong>Player:</strong> ${d.Player}<br/>
+                <strong>Team:</strong> ${d.Tm}<br/>
+                <strong>Points:</strong> ${d.pts}<br/>
+                <strong>Rebounds:</strong> ${d.trb}<br/>
+                <strong>Assists:</strong> ${d.ast}<br/>
+                <strong>Steals:</strong> ${d.stl}
+            `)
+            .style('left', (event.pageX + 10) + 'px')
+            .style('top', (event.pageY - 28) + 'px')
+            .style('visibility', 'visible');
+        })
+        .on('mouseout', function() {
+            tooltip.style('visibility', 'hidden');
+        })
+        .transition()  // Add transition
+        .duration(1000)  // Duration of the animation in milliseconds
+        .attr('y', d => yScale2(d.pts))  // Animate to the final y position
+        .attr('height', d => 650 - yScale2(d.pts));  // Animate to the final height
 
         svg2.append('g')
             .attr('transform', 'translate(0, 650)')
