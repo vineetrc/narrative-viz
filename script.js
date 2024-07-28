@@ -188,8 +188,6 @@ document.addEventListener('DOMContentLoaded', function() {
             .domain([0, d3.max(nestedData, d => d3.sum(d[1], v => v.pts))])
             .range([650, 50]);
 
-        const colorScale = d3.scaleOrdinal(d3.schemeCategory10);
-
         nestedData.forEach(d => {
             const team = d[0];
             const players = d[1];
