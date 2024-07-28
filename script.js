@@ -15,16 +15,16 @@ document.addEventListener('DOMContentLoaded', function() {
         // Scene 1: Scatterplot of 3P% vs 2P% with circle size representing average points and color representing position
         const svg1 = d3.select('#chart1')
             .append('svg')
-            .attr('width', 1000)
-            .attr('height', 700);
+            .attr('width', 1000)  // Increase width
+            .attr('height', 700); // Increase height
 
         const xScale1 = d3.scaleLinear()
             .domain([d3.min(data, d => d.threep_perc), 45])
-            .range([50, 950]);
+            .range([50, 950]); // Adjust range
 
         const yScale1 = d3.scaleLinear()
             .domain([30, 70])
-            .range([650, 50]);
+            .range([650, 50]); // Adjust range
 
         const rScale1 = d3.scaleSqrt()
             .domain([0, d3.max(data, d => d.pts)])
@@ -85,6 +85,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .attr('transform', 'rotate(-90)')
             .text('2-Point Percentage');
 
+        // Add legend
         const legend1 = svg1.selectAll('.legend')
             .data(colorScale.domain())
             .enter()
@@ -105,6 +106,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .style('text-anchor', 'end')
             .text(d => d);
 
+        // Add annotations for Anthony Davis and Damian Lillard
         const annotations1 = [
             {
                 note: {
@@ -147,19 +149,19 @@ document.addEventListener('DOMContentLoaded', function() {
         // Scene 2: Bar chart of players and their average points, ordered from most points to lowest points
         const svg2 = d3.select('#chart2')
             .append('svg')
-            .attr('width', 1000)
-            .attr('height', 700);
+            .attr('width', 1000)  // Increase width
+            .attr('height', 700); // Increase height
 
         data.sort((a, b) => b.pts - a.pts);
 
         const xScale2 = d3.scaleBand()
             .domain(data.map(d => d.Tm))
-            .range([50, 950])
+            .range([50, 950]) // Adjust range
             .padding(0.1);
 
         const yScale2 = d3.scaleLinear()
-            .domain([0, 40])
-            .range([650, 50]);
+            .domain([0, 40]) // Adjust domain to scale up to 40
+            .range([650, 50]); // Adjust range
 
         svg2.selectAll('.bar')
             .data(data)
@@ -167,9 +169,9 @@ document.addEventListener('DOMContentLoaded', function() {
             .append('rect')
             .attr('class', 'bar')
             .attr('x', d => xScale2(d.Tm))
-            .attr('y', 650)
+            .attr('y', d => yScale2(d.pts))
             .attr('width', xScale2.bandwidth())
-            .attr('height', 0)
+            .attr('height', d => 650 - yScale2(d.pts)) // Adjust height
             .attr('fill', d => colorScale(d.Pos))
             .on('mouseover', function(event, d) {
                 tooltip.html(`
@@ -188,60 +190,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 tooltip.style('visibility', 'hidden');
             });
 
-        // Function to animate the bars
-        function animateBars() {
-            svg2.selectAll('.bar')
-                .transition()
-                .duration(1000)
-                .attr('y', d => yScale2(d.pts))
-                .attr('height', d => 650 - yScale2(d.pts))
-                .on('end', function() {
-                    // Display annotations after bars finish growing
-                    svg2.append('g')
-                        .call(makeAnnotations2);
-                });
-        }
-
-        const makeAnnotations2 = d3.annotation()
-            .annotations([
-                {
-                    note: {
-                        label: "",
-                        title: "Highest Playoff Scorer"
-                    },
-                    x: xScale2(data[0].Tm) + xScale2.bandwidth() / 2,
-                    y: yScale2(data[0].pts),
-                    dx: 60,
-                    dy: -60
-                },
-                {
-                    note: {
-                        label: "",
-                        title: "League MVP"
-                    },
-                    x: xScale2(data[5].Tm) + xScale2.bandwidth() / 2,
-                    y: yScale2(data[5].pts),
-                    dx: 90,
-                    dy: -40
-                },
-            ])
-            .type(d3.annotationLabel)
-            .accessors({
-                x: d => xScale2(d.Tm) + xScale2.bandwidth() / 2,
-                y: d => yScale2(d.pts)
-            })
-            .accessorsInverse({
-                Tm: d => xScale2.invert(d.x),
-                pts: d => yScale2.invert(d.y)
-            });
-
         svg2.append('g')
             .attr('transform', 'translate(0, 650)')
             .call(d3.axisBottom(xScale2).tickFormat(d => d).tickSizeOuter(0))
             .selectAll('text')
             .attr('transform', 'rotate(-45)')
             .style('text-anchor', 'end')
-            .style('font-size', '10px');
+            .style('font-size', '10px'); // Reduce font size
 
         svg2.append('g')
             .attr('transform', 'translate(50, 0)')
@@ -254,7 +209,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .attr('font-size', '12px')
             .text('Teams');
 
-        svg2.append('text')
+            svg2.append('text')
             .attr('x', -300)
             .attr('y', 20)
             .attr('text-anchor', 'middle')
@@ -262,6 +217,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .attr('transform', 'rotate(-90)')
             .text('Points');
 
+        // Add legend for second scene
         const legend2 = svg2.selectAll('.legend')
             .data(colorScale.domain())
             .enter()
@@ -282,36 +238,72 @@ document.addEventListener('DOMContentLoaded', function() {
             .style('text-anchor', 'end')
             .text(d => d);
 
-        let currentScene = 1;
+        // Add annotations for the second scene
+        const annotations2 = [
+            {
+                note: {
+                    label: "",
+                    title: "Highest Playoff Scorer"
+                },
+                x: xScale2(data[0].Tm) + xScale2.bandwidth() / 2,
+                y: yScale2(data[0].pts),
+                dx: 60,
+                dy: -60
+            },
+            {
+                note: {
+                    label: "",
+                    title: "League MVP"
+                },
+                x: xScale2(data[5].Tm) + xScale2.bandwidth() / 2,
+                y: yScale2(data[5].pts),
+                dx: 90,
+                dy: -40
+            },
+        ];
 
-        function showScene(sceneNumber) {
-            document.querySelectorAll('.scene').forEach((scene, index) => {
-                if (index === sceneNumber - 1) {
-                    scene.style.display = 'block';
-                    if (sceneNumber === 2) {
-                        animateBars();
-                    }
-                } else {
-                    scene.style.display = 'none';
-                }
+        const makeAnnotations2 = d3.annotation()
+            .annotations(annotations2)
+            .type(d3.annotationLabel)
+            .accessors({
+                x: d => xScale2(d.Tm) + xScale2.bandwidth() / 2,
+                y: d => yScale2(d.pts)
+            })
+            .accessorsInverse({
+                Tm: d => xScale2.invert(d.x),
+                pts: d => yScale2.invert(d.y)
             });
-        }
 
-        function nextScene() {
-            if (currentScene < 3) {
-                currentScene++;
-                showScene(currentScene);
-            }
-        }
-
-        function prevScene() {
-            if (currentScene > 1) {
-                currentScene--;
-                showScene(currentScene);
-            }
-        }
-
-        // Initially show the first scene
-        showScene(currentScene);
+        svg2.append('g')
+            .call(makeAnnotations2);
     });
 });
+
+let currentScene = 1;
+
+function showScene(sceneNumber) {
+    document.querySelectorAll('.scene').forEach((scene, index) => {
+        if (index === sceneNumber - 1) {
+            scene.style.display = 'block';
+        } else {
+            scene.style.display = 'none';
+        }
+    });
+}
+
+function nextScene() {
+    if (currentScene < 3) {
+        currentScene++;
+        showScene(currentScene);
+    }
+}
+
+function prevScene() {
+    if (currentScene > 1) {
+        currentScene--;
+        showScene(currentScene);
+    }
+}
+
+// Initially show the first scene
+showScene(currentScene);
