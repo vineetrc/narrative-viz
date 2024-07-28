@@ -10,22 +10,21 @@ document.addEventListener('DOMContentLoaded', function() {
             d.stl = +d.STL;
             d.mp = +d.MP;
             d.fta = +d.FTA;
-            d.efg_perc = +d['eFG%'] * 100;
         });
 
         // Scene 1: Scatterplot of 3P% vs 2P% with circle size representing average points and color representing position
         const svg1 = d3.select('#chart1')
             .append('svg')
-            .attr('width', 1000)
-            .attr('height', 700);
+            .attr('width', 1000)  // Increase width
+            .attr('height', 700); // Increase height
 
         const xScale1 = d3.scaleLinear()
             .domain([d3.min(data, d => d.threep_perc), 45])
-            .range([50, 950]);
+            .range([50, 950]); // Adjust range
 
         const yScale1 = d3.scaleLinear()
             .domain([30, 70])
-            .range([650, 50]);
+            .range([650, 50]); // Adjust range
 
         const rScale1 = d3.scaleSqrt()
             .domain([0, d3.max(data, d => d.pts)])
@@ -150,19 +149,19 @@ document.addEventListener('DOMContentLoaded', function() {
         // Scene 2: Bar chart of players and their average points, ordered from most points to lowest points
         const svg2 = d3.select('#chart2')
             .append('svg')
-            .attr('width', 1000)
-            .attr('height', 700);
+            .attr('width', 1000)  // Increase width
+            .attr('height', 700); // Increase height
 
         data.sort((a, b) => b.pts - a.pts);
 
         const xScale2 = d3.scaleBand()
             .domain(data.map(d => d.Tm))
-            .range([50, 950])
+            .range([50, 950]) // Adjust range
             .padding(0.1);
 
         const yScale2 = d3.scaleLinear()
-            .domain([0, 40])
-            .range([650, 50]);
+            .domain([0, 40]) // Adjust domain to scale up to 40
+            .range([650, 50]); // Adjust range
 
         svg2.selectAll('.bar')
             .data(data)
@@ -172,7 +171,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .attr('x', d => xScale2(d.Tm))
             .attr('y', d => yScale2(d.pts))
             .attr('width', xScale2.bandwidth())
-            .attr('height', d => 650 - yScale2(d.pts))
+            .attr('height', d => 650 - yScale2(d.pts)) // Adjust height
             .attr('fill', d => colorScale(d.Pos))
             .on('mouseover', function(event, d) {
                 tooltip.html(`
@@ -197,7 +196,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .selectAll('text')
             .attr('transform', 'rotate(-45)')
             .style('text-anchor', 'end')
-            .style('font-size', '10px');
+            .style('font-size', '10px'); // Reduce font size
 
         svg2.append('g')
             .attr('transform', 'translate(50, 0)')
@@ -210,7 +209,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .attr('font-size', '12px')
             .text('Teams');
 
-        svg2.append('text')
+            svg2.append('text')
             .attr('x', -300)
             .attr('y', 20)
             .attr('text-anchor', 'middle')
@@ -263,136 +262,26 @@ document.addEventListener('DOMContentLoaded', function() {
             },
         ];
 
+        // const makeAnnotations2 = d3.annotation()
+        //     .annotations(annotations2)
+        //     .type(d3.annotationLabel)
+        //     .accessors({
+        //         x: d => xScale2(d.Tm) + xScale2.bandwidth() / 2,
+        //         y: d => yScale2(d.pts)
+        //     })
+        //     .accessorsInverse({
+        //         Tm: d => xScale2.invert(d.x),
+        //         pts: d => yScale2.invert(d.y)
+        //     });
+
+        // svg2.append('g')
+        //     .call(makeAnnotations2);
+
         const makeAnnotations2 = d3.annotation()
             .annotations(annotations2);
 
         svg2.append('g')
             .call(makeAnnotations2);
-
-        // Scene 3: Scatterplot of eFG% vs PTS with uniform circle size and color representing position
-        const svg3 = d3.select('#chart3')
-            .append('svg')
-            .attr('width', 1000)
-            .attr('height', 700);
-
-        const xScale3 = d3.scaleLinear()
-            .domain([d3.min(data, d => d.efg_perc), d3.max(data, d => d.efg_perc)])
-            .range([50, 950]);
-
-        const yScale3 = d3.scaleLinear()
-            .domain([d3.min(data, d => d.pts), d3.max(data, d => d.pts)])
-            .range([650, 50]);
-
-        svg3.selectAll('circle')
-            .data(data)
-            .enter()
-            .append('circle')
-            .attr('cx', d => xScale3(d.efg_perc))
-            .attr('cy', d => yScale3(d.pts))
-            .attr('r', 10)
-            .attr('fill', d => colorScale(d.Pos))
-            .attr('stroke', 'black')
-            .attr('stroke-width', 1)
-            .on('mouseover', function(event, d) {
-                tooltip.html(`
-                    <strong>Player:</strong> ${d.Player}<br/>
-                    <strong>Team:</strong> ${d.Tm}<br/>
-                    <strong>Points:</strong> ${d.pts}<br/>
-                    <strong>Rebounds:</strong> ${d.trb}<br/>
-                    <strong>Assists:</strong> ${d.ast}<br/>
-                    <strong>Steals:</strong> ${d.stl}
-                `)
-                .style('left', (event.pageX + 10) + 'px')
-                .style('top', (event.pageY - 28) + 'px')
-                .style('visibility', 'visible');
-            })
-            .on('mouseout', function() {
-                tooltip.style('visibility', 'hidden');
-            });
-
-        svg3.append('g')
-            .attr('transform', 'translate(0, 650)')
-            .call(d3.axisBottom(xScale3).ticks(10).tickFormat(d => d + "%"));
-
-        svg3.append('g')
-            .attr('transform', 'translate(50, 0)')
-            .call(d3.axisLeft(yScale3).ticks(10));
-
-        svg3.append('text')
-            .attr('x', 500)
-            .attr('y', 690)
-            .attr('text-anchor', 'middle')
-            .attr('font-size', '12px')
-            .text('Effective Field Goal Percentage');
-
-        svg3.append('text')
-            .attr('x', -300)
-            .attr('y', 20)
-            .attr('text-anchor', 'middle')
-            .attr('font-size', '12px')
-            .attr('transform', 'rotate(-90)')
-            .text('Points');
-
-        // Add legend for the third scene
-        const legend3 = svg3.selectAll('.legend')
-            .data(colorScale.domain())
-            .enter()
-            .append('g')
-            .attr('class', 'legend')
-            .attr('transform', (d, i) => `translate(0, ${i * 20})`);
-
-        legend3.append('rect')
-            .attr('x', 900)
-            .attr('width', 18)
-            .attr('height', 18)
-            .style('fill', colorScale);
-
-        legend3.append('text')
-            .attr('x', 880)
-            .attr('y', 9)
-            .attr('dy', '.35em')
-            .style('text-anchor', 'end')
-            .text(d => d);
-
-        // Add annotations for the third scene
-        const annotations3 = [
-            {
-                note: {
-                    label: "Anthony Davis",
-                    title: "High eFG%"
-                },
-                x: xScale3(data.find(d => d.Player === "Anthony Davis").efg_perc),
-                y: yScale3(data.find(d => d.Player === "Anthony Davis").pts),
-                dx: 60,
-                dy: 60
-            },
-            {
-                note: {
-                    label: "Damian Lillard",
-                    title: "High Points"
-                },
-                x: xScale3(data.find(d => d.Player === "Damian Lillard").efg_perc),
-                y: yScale3(data.find(d => d.Player === "Damian Lillard").pts),
-                dx: -90,
-                dy: 40
-            },
-            {
-                note: {
-                    label: "Joel Embiid",
-                    title: "Highest Scorer"
-                },
-                x: xScale3(data.find(d => d.Player === "Joel Embiid").efg_perc),
-                y: yScale3(data.find(d => d.Player === "Joel Embiid").pts),
-                dx: -10,
-                dy: 40
-            }
-        ];
-
-        const makeAnnotations3 = d3.annotation()
-            .annotations(annotations3);
-
-        svg3.append('g')
-            .call(makeAnnotations3);
     });
 });
 
