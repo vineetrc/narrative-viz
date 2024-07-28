@@ -238,36 +238,26 @@ document.addEventListener('DOMContentLoaded', function() {
             .style('text-anchor', 'end')
             .text(d => d);
 
-        // Add annotations for the second scene
+        // Add annotations for Joel Embiid and Nikola Jokic
         const annotations2 = [
             {
                 note: {
-                    label: "Highest Scorer",
-                    title: data[0].Player
+                    label: "Joel Embiid",
+                    title: "Highest Scorer"
                 },
-                x: xScale2(data[0].Tm) + xScale2.bandwidth() / 2,
-                y: yScale2(data[0].pts),
+                x: xScale2(data.find(d => d.Player === "Joel Embiid").Tm) + xScale2.bandwidth() / 2,
+                y: yScale2(data.find(d => d.Player === "Joel Embiid").pts),
                 dx: 60,
                 dy: -60
             },
             {
                 note: {
-                    label: "Second Highest Scorer",
-                    title: data[1].Player
+                    label: "Nikola Jokic",
+                    title: "High Scorer"
                 },
-                x: xScale2(data[1].Tm) + xScale2.bandwidth() / 2,
-                y: yScale2(data[1].pts),
+                x: xScale2(data.find(d => d.Player === "Nikola Jokic").Tm) + xScale2.bandwidth() / 2,
+                y: yScale2(data.find(d => d.Player === "Nikola Jokic").pts),
                 dx: -90,
-                dy: -40
-            },
-            {
-                note: {
-                    label: "Third Highest Scorer",
-                    title: data[2].Player
-                },
-                x: xScale2(data[2].Tm) + xScale2.bandwidth() / 2,
-                y: yScale2(data[2].pts),
-                dx: -10,
                 dy: -40
             }
         ];
@@ -317,3 +307,4 @@ function prevScene() {
 
 // Initially show the first scene
 showScene(currentScene);
+
