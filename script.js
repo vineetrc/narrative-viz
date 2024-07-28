@@ -262,23 +262,23 @@ document.addEventListener('DOMContentLoaded', function() {
             {
                 note: {
                     label: "",
-                    title: "Highest Playoff Scorer"
+                    title: "23-24 NBA Champions"
                 },
-                x: xScale2(data[0].Tm) + xScale2.bandwidth() / 2,
-                y: yScale2(data[0].pts),
+                x: xScale2(data[11].Tm) + xScale2.bandwidth() / 2,
+                y: yScale2(data[11].pts),
                 dx: 60,
                 dy: -60
             },
-            {
-                note: {
-                    label: "",
-                    title: "League MVP"
-                },
-                x: xScale2(data[5].Tm) + xScale2.bandwidth() / 2,
-                y: yScale2(data[5].pts),
-                dx: 90,
-                dy: -40
-            },
+            // {
+            //     note: {
+            //         label: "",
+            //         title: "League MVP"
+            //     },
+            //     x: xScale2(data[5].Tm) + xScale2.bandwidth() / 2,
+            //     y: yScale2(data[5].pts),
+            //     dx: 90,
+            //     dy: -40
+            // },
         ];
 
         const makeAnnotations2 = d3.annotation()
