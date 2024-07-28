@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         // Scene 1: Scatterplot of 3P% vs 2P% with circle size representing average points and color representing position
-        const svg1 = d3.select('#chart2')
+        const svg1 = d3.select('#chart1')
             .append('svg')
             .attr('width', 1000)  // Increase width
             .attr('height', 700); // Increase height
@@ -110,8 +110,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const annotations1 = [
             {
                 note: {
-                    label: "",
-                    title: "High 2P%/Low 3P% \n (Anthony Davis)"
+                    label: "Anthony Davis",
+                    title: "High 2P%/Low 3P%"
                 },
                 x: xScale1(data.find(d => d.Player === "Anthony Davis").threep_perc),
                 y: yScale1(data.find(d => d.Player === "Anthony Davis").twop_perc),
@@ -120,8 +120,8 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             {
                 note: {
-                    label: "",
-                    title: "High 3P%/Low 2P% \n (Damian Lillard)"
+                    label: "Damian Lillard",
+                    title: "High 3P%/Low 2P%"
                 },
                 x: xScale1(data.find(d => d.Player === "Damian Lillard").threep_perc),
                 y: yScale1(data.find(d => d.Player === "Damian Lillard").twop_perc),
@@ -130,8 +130,8 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             {
                 note: {
-                    label: "",
-                    title: "Highest Scorer \n (Joel Embiid)"
+                    label: "Joel Embiid",
+                    title: "Highest Scorer"
                 },
                 x: xScale1(data.find(d => d.Player === "Joel Embiid").threep_perc),
                 y: yScale1(data.find(d => d.Player === "Joel Embiid").twop_perc),
@@ -147,7 +147,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .call(makeAnnotations1);
 
         // Scene 2: Bar chart of players and their average points, ordered from most points to lowest points
-        const svg2 = d3.select('#chart1')
+        const svg2 = d3.select('#chart2')
             .append('svg')
             .attr('width', 1000)  // Increase width
             .attr('height', 700); // Increase height
