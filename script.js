@@ -349,34 +349,14 @@ document.addEventListener('DOMContentLoaded', function() {
         const annotations3 = [
             {
                 note: {
-                    label: "Anthony Davis",
-                    title: "High eFG%"
+                    label: "",
+                    title: "League MVP"
                 },
-                x: xScale3(data.find(d => d.Player === "Anthony Davis").efg_perc),
-                y: yScale3(data.find(d => d.Player === "Anthony Davis").pts),
+                x: xScale3(data.find(d => d.Player === "Nikola Joki?").efg_perc),
+                y: yScale3(data.find(d => d.Player === "Nikola Joki?").pts),
                 dx: 60,
                 dy: 60
             },
-            {
-                note: {
-                    label: "Damian Lillard",
-                    title: "High Points"
-                },
-                x: xScale3(data.find(d => d.Player === "Damian Lillard").efg_perc),
-                y: yScale3(data.find(d => d.Player === "Damian Lillard").pts),
-                dx: -90,
-                dy: 40
-            },
-            {
-                note: {
-                    label: "Joel Embiid",
-                    title: "Highest Scorer"
-                },
-                x: xScale3(data.find(d => d.Player === "Joel Embiid").efg_perc),
-                y: yScale3(data.find(d => d.Player === "Joel Embiid").pts),
-                dx: -10,
-                dy: 40
-            }
         ];
 
         const makeAnnotations3 = d3.annotation()
