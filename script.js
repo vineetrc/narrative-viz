@@ -1,25 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const playersList = [
-        "Jayson Tatum",
-        "Donovan Mitchell",
-        "Luka Don?i?",
-        "Nikola Joki?",
-        "Pascal Siakam",
-        "James Harden",
-        "Anthony Davis",
-        "Bam Adebayo",
-        "Damian Lillard",
-        "Anthony Edwards",
-        "CJ McCollum",
-        "Jalen Brunson",
-        "Shai Gilgeous-Alexander",
-        "Paolo Banchero",
-        "Joel Embiid",
-        "Devin Booker"
-    ];
-
-    d3.csv('.data/cleaned_nba_playoff_stats.csv').then(function(data) {
-        // Data parsing
+    d3.csv('./data/cleaned_nba_playoff_stats.csv').then(function(data) {
         data.forEach(function(d) {
             d.pts = +d.PTS;
             d.fg_perc = +d['FG%'] * 100;
@@ -33,16 +13,13 @@ document.addEventListener('DOMContentLoaded', function() {
             d.efg_perc = +d['eFG%'] * 100;
         });
 
-        // Filter the data for the first scene
-        const filteredData = data.filter(d => playersList.includes(d.Player));
-
-        // Chart 1: 3P% vs 2P%
-        const svg1 = d3.select('#chart1').append('svg')
+        const svg1 = d3.select('#chart1')
+            .append('svg')
             .attr('width', 1000)
             .attr('height', 700);
 
         const xScale1 = d3.scaleLinear()
-            .domain([d3.min(filteredData, d => d.threep_perc), 45])
+            .domain([d3.min(data, d => d.threep_perc), 45])
             .range([50, 950]);
 
         const yScale1 = d3.scaleLinear()
@@ -50,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .range([650, 50]);
 
         const rScale1 = d3.scaleSqrt()
-            .domain([0, d3.max(filteredData, d => d.pts)])
+            .domain([0, d3.max(data, d => d.pts)])
             .range([5, 20]);
 
         const colorScale = d3.scaleOrdinal(d3.schemeCategory10);
@@ -59,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .attr('class', 'tooltip');
 
         svg1.selectAll('circle')
-            .data(filteredData)
+            .data(data)
             .enter()
             .append('circle')
             .attr('cx', d => xScale1(d.threep_perc))
@@ -134,8 +111,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     label: "Anthony Davis",
                     title: "High 2P%/Low 3P%"
                 },
-                x: xScale1(filteredData.find(d => d.Player === "Anthony Davis").threep_perc),
-                y: yScale1(filteredData.find(d => d.Player === "Anthony Davis").twop_perc),
+                x: xScale1(data.find(d => d.Player === "Anthony Davis").threep_perc),
+                y: yScale1(data.find(d => d.Player === "Anthony Davis").twop_perc),
                 dx: 60,
                 dy: 60
             },
@@ -144,8 +121,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     label: "Damian Lillard",
                     title: "High 3P%/Low 2P%"
                 },
-                x: xScale1(filteredData.find(d => d.Player === "Damian Lillard").threep_perc),
-                y: yScale1(filteredData.find(d => d.Player === "Damian Lillard").twop_perc),
+                x: xScale1(data.find(d => d.Player === "Damian Lillard").threep_perc),
+                y: yScale1(data.find(d => d.Player === "Damian Lillard").twop_perc),
                 dx: -90,
                 dy: 40
             },
@@ -154,8 +131,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     label: "Joel Embiid",
                     title: "Highest Scorer"
                 },
-                x: xScale1(filteredData.find(d => d.Player === "Joel Embiid").threep_perc),
-                y: yScale1(filteredData.find(d => d.Player === "Joel Embiid").twop_perc),
+                x: xScale1(data.find(d => d.Player === "Joel Embiid").threep_perc),
+                y: yScale1(data.find(d => d.Player === "Joel Embiid").twop_perc),
                 dx: -10,
                 dy: 40
             }
