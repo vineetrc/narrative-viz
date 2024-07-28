@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
         "Devin Booker"
     ];
 
-    d3.csv('./data/top_scorers_by_team.csv').then(function(data) {
+    d3.csv('.data/cleaned_nba_playoff_stats.csv').then(function(data) {
         // Data parsing
         data.forEach(function(d) {
             d.pts = +d.PTS;
