@@ -353,7 +353,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     title: "League MVP"
                 },
                 x: xScale3(data.find(d => d.Player === "Nikola Joki?").efg_perc),
-                y: yScale3(data.find(d => d.Player === "Nikola Joki?").pts),
+                y: yScale3(data.find(d => d.Player === "Nikola Jokic?").pts),
                 dx: 60,
                 dy: 60
             },
@@ -454,15 +454,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
             if (sceneNumber === 3) {
                 resetFilters();
-                document.getElementById('nextButton').style.visibility = 'hidden';
-            } else {
-                document.getElementById('nextButton').style.visibility = 'visible';
-            }
-
-            if (sceneNumber === 1) {
-                document.getElementById('prevButton').style.visibility = 'hidden';
-            } else {
-                document.getElementById('prevButton').style.visibility = 'visible';
             }
         }
 
