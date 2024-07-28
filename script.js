@@ -188,7 +188,11 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .on('mouseout', function() {
                 tooltip.style('visibility', 'hidden');
-            });
+            })
+            .transition()  // Add transition
+            .duration(1000)  // Duration of the animation in milliseconds
+            .attr('y', d => yScale2(d.pts))  // Animate to the final y position
+            .attr('height', d => 650 - yScale2(d.pts));  // Animate to the final height
 
         svg2.append('g')
             .attr('transform', 'translate(0, 650)')
