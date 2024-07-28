@@ -325,7 +325,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     <strong>Points:</strong> ${d.pts}<br/>
                     <strong>Rebounds:</strong> ${d.trb}<br/>
                     <strong>Assists:</strong> ${d.ast}<br/>
-                    <strong>Steals:</strong> ${d.stl}
+                    <strong>Steals:</strong> ${d.stl}<br/>
+                    <strong>eFG%:</strong> ${d.efg_perc}%
                 `)
                 .style('left', (event.pageX + 10) + 'px')
                 .style('top', (event.pageY - 28) + 'px')
@@ -356,7 +357,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .attr('text-anchor', 'middle')
             .attr('font-size', '12px')
             .attr('transform', 'rotate(-90)')
-            .text('Points');
+            .text('Avg Points per Game');
 
         const legend3 = svg3.selectAll('.legend')
             .data(colorScale.domain())
