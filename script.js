@@ -265,21 +265,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     label: "",
                     title: "23-24 NBA Champions"
                 },
-                x: xScale2(data[11].Tm) + xScale2.bandwidth() / 2,
-                y: yScale2(data[11].pts),
+                x: xScale2(data[14].Tm) + xScale2.bandwidth() / 2,
+                y: yScale2(data[14].pts),
                 dx: 60,
                 dy: -60
             },
-            // {
-            //     note: {
-            //         label: "",
-            //         title: "League MVP"
-            //     },
-            //     x: xScale2(data[5].Tm) + xScale2.bandwidth() / 2,
-            //     y: yScale2(data[5].pts),
-            //     dx: 90,
-            //     dy: -40
-            // },
         ];
 
         const makeAnnotations2 = d3.annotation()
@@ -375,7 +365,7 @@ document.addEventListener('DOMContentLoaded', function() {
             {
                 note: {
                     label: "",
-                    title: "League MVP"
+                    title: "League MVP: Nikola Jokic"
                 },
                 x: xScale3(data.find(d => d.Player === "Nikola Joki?").efg_perc),
                 y: yScale3(data.find(d => d.Player === "Nikola Joki?").pts),
