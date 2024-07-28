@@ -202,7 +202,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .attr('x', 400)
             .attr('y', 590)
             .attr('text-anchor', 'middle')
-            .attr('font-size', '12px')
+            .attr('font-size', '8px')
             .text('Players');
 
         svg2.append('text')
@@ -238,28 +238,18 @@ document.addEventListener('DOMContentLoaded', function() {
         const annotations2 = [
             {
                 note: {
-                    label: "Anthony Davis",
+                    label: "Nikola Jokic",
                     title: "High Points"
                 },
-                x: xScale2(data.find(d => d.Player === "Anthony Davis").Player) + xScale2.bandwidth() / 2,
-                y: yScale2(data.find(d => d.Player === "Anthony Davis").pts),
-                dx: 60,
-                dy: -60
-            },
-            {
-                note: {
-                    label: "Damian Lillard",
-                    title: "High Points"
-                },
-                x: xScale2(data.find(d => d.Player === "Damian Lillard").Player) + xScale2.bandwidth() / 2,
-                y: yScale2(data.find(d => d.Player === "Damian Lillard").pts),
+                x: xScale2(data.find(d => d.Player === "Nikola Joki?").Player) + xScale2.bandwidth() / 2,
+                y: yScale2(data.find(d => d.Player === "Nikola Joki?").pts),
                 dx: -90,
                 dy: -40
             },
             {
                 note: {
                     label: "Joel Embiid",
-                    title: "Highest Points"
+                    title: "Most Avg Points"
                 },
                 x: xScale2(data.find(d => d.Player === "Joel Embiid").Player) + xScale2.bandwidth() / 2,
                 y: yScale2(data.find(d => d.Player === "Joel Embiid").pts),
