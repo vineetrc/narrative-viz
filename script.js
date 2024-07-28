@@ -168,6 +168,7 @@ document.addEventListener('DOMContentLoaded', function() {
         svg1.append('g')
             .call(makeAnnotations1);
 
+        console.log("Data", data);
         // Chart 2: Points by Team
         const svg2 = d3.select('#chart2').append('svg')
             .attr('width', 1000)
