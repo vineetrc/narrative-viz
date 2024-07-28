@@ -417,8 +417,8 @@ document.addEventListener('DOMContentLoaded', function() {
                        (selectedTeam === 'All' || d.Tm === selectedTeam);
             });
 
-            if (!filteredData.some(d => d.Player === 'Nikola Jokic')) {
-                const nikolaJokicData = data.find(d => d.Player === 'Nikola Jokic');
+            if (!filteredData.some(d => d.Player === 'Nikola Joki?')) {
+                const nikolaJokicData = data.find(d => d.Player === 'Nikola Joki?');
                 if (nikolaJokicData) {
                     filteredData.push(nikolaJokicData);
                 }
