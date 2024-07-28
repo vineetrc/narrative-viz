@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
             d.efg_perc = +d['eFG%'] * 100;
         });
 
+        // Scene 1: Scatterplot of 3P% vs 2P% with circle size representing average points and color representing position
         const svg1 = d3.select('#chart1')
             .append('svg')
             .attr('width', 1000)
@@ -85,6 +86,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .attr('transform', 'rotate(-90)')
             .text('2-Point Percentage');
 
+        // Add legend
         const legend1 = svg1.selectAll('.legend')
             .data(colorScale.domain())
             .enter()
@@ -105,6 +107,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .style('text-anchor', 'end')
             .text(d => d);
 
+        // Add annotations for Anthony Davis and Damian Lillard
         const annotations1 = [
             {
                 note: {
@@ -144,6 +147,7 @@ document.addEventListener('DOMContentLoaded', function() {
         svg1.append('g')
             .call(makeAnnotations1);
 
+        // Scene 2: Bar chart of players and their average points, ordered from most points to lowest points
         const svg2 = d3.select('#chart2')
             .append('svg')
             .attr('width', 1000)
@@ -214,6 +218,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .attr('transform', 'rotate(-90)')
             .text('Points');
 
+        // Add legend for second scene
         const legend2 = svg2.selectAll('.legend')
             .data(colorScale.domain())
             .enter()
@@ -234,6 +239,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .style('text-anchor', 'end')
             .text(d => d);
 
+        // Add annotations for the second scene
         const annotations2 = [
             {
                 note: {
@@ -263,6 +269,7 @@ document.addEventListener('DOMContentLoaded', function() {
         svg2.append('g')
             .call(makeAnnotations2);
 
+        // Scene 3: Scatterplot of eFG% vs PTS with uniform circle size and color representing position
         const svg3 = d3.select('#chart3')
             .append('svg')
             .attr('width', 1000)
@@ -326,6 +333,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .attr('transform', 'rotate(-90)')
             .text('Points');
 
+        // Add legend for the third scene
         const legend3 = svg3.selectAll('.legend')
             .data(colorScale.domain())
             .enter()
@@ -346,6 +354,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .style('text-anchor', 'end')
             .text(d => d);
 
+        // Add annotations for the third scene
         const annotations3 = [
             {
                 note: {
@@ -385,6 +394,7 @@ document.addEventListener('DOMContentLoaded', function() {
         svg3.append('g')
             .call(makeAnnotations3);
 
+        // Populate position dropdown
         const positions = Array.from(new Set(data.map(d => d.Pos)));
         const positionFilter = d3.select('#positionFilter');
 
@@ -395,32 +405,13 @@ document.addEventListener('DOMContentLoaded', function() {
             .attr('value', d => d)
             .text(d => d);
 
-        const teams = Array.from(new Set(data.map(d => d.Tm)));
-        const teamFilter = d3.select('#teamFilter');
-
-        teamFilter.selectAll('option')
-            .data(teams)
-            .enter()
-            .append('option')
-            .attr('value', d => d)
-            .text(d => d);
-
         positionFilter.on('change', function() {
-            updateChart();
+            const selectedPosition = this.value;
+            updateChart(selectedPosition);
         });
 
-        teamFilter.on('change', function() {
-            updateChart();
-        });
-
-        function updateChart() {
-            const selectedPosition = positionFilter.node().value;
-            const selectedTeam = teamFilter.node().value;
-
-            const filteredData = data.filter(d => {
-                return (selectedPosition === 'All' || d.Pos === selectedPosition) &&
-                       (selectedTeam === 'All' || d.Tm === selectedTeam);
-            });
+        function updateChart(position) {
+            const filteredData = position === 'All' ? data : data.filter(d => d.Pos === position);
             
             svg3.selectAll('circle')
                 .data(filteredData, d => d.Player)
