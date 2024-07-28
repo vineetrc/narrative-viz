@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     d3.csv('./data/top_scorers_by_team.csv').then(function(data) {
+        // Data parsing
         data.forEach(function(d) {
             d.pts = +d.PTS;
             d.fg_perc = +d['FG%'] * 100;
@@ -13,8 +14,8 @@ document.addEventListener('DOMContentLoaded', function() {
             d.efg_perc = +d['eFG%'] * 100;
         });
 
-        const svg1 = d3.select('#chart1')
-            .append('svg')
+        // Chart 1: 3P% vs 2P%
+        const svg1 = d3.select('#chart1').append('svg')
             .attr('width', 1000)
             .attr('height', 700);
 
@@ -144,8 +145,8 @@ document.addEventListener('DOMContentLoaded', function() {
         svg1.append('g')
             .call(makeAnnotations1);
 
-        const svg2 = d3.select('#chart2')
-            .append('svg')
+        // Chart 2: Points by Team
+        const svg2 = d3.select('#chart2').append('svg')
             .attr('width', 1000)
             .attr('height', 700);
 
@@ -263,108 +264,6 @@ document.addEventListener('DOMContentLoaded', function() {
         svg2.append('g')
             .call(makeAnnotations2);
 
-        const svg3 = d3.select('#chart3')
-            .append('svg')
-            .attr('width', 1000)
-            .attr('height', 700);
-
-        const xScale3 = d3.scaleLinear()
-            .domain([d3.min(data, d => d.efg_perc), d3.max(data, d => d.efg_perc)])
-            .range([50, 950]);
-
-        const yScale3 = d3.scaleLinear()
-            .domain([d3.min(data, d => d.pts), d3.max(data, d => d.pts)])
-            .range([650, 50]);
-
-        svg3.selectAll('circle')
-            .data(data)
-            .enter()
-            .append('circle')
-            .attr('cx', d => xScale3(d.efg_perc))
-            .attr('cy', d => yScale3(d.pts))
-            .attr('r', 10)
-            .attr('fill', d => colorScale(d.Pos))
-            .attr('stroke', 'black')
-            .attr('stroke-width', 1)
-            .on('mouseover', function(event, d) {
-                tooltip.html(`
-                    <strong>Player:</strong> ${d.Player}<br/>
-                    <strong>Team:</strong> ${d.Tm}<br/>
-                    <strong>Points:</strong> ${d.pts}<br/>
-                    <strong>Rebounds:</strong> ${d.trb}<br/>
-                    <strong>Assists:</strong> ${d.ast}<br/>
-                    <strong>Steals:</strong> ${d.stl}
-                `)
-                .style('left', (event.pageX + 10) + 'px')
-                .style('top', (event.pageY - 28) + 'px')
-                .style('visibility', 'visible');
-            })
-            .on('mouseout', function() {
-                tooltip.style('visibility', 'hidden');
-            });
-
-        svg3.append('g')
-            .attr('transform', 'translate(0, 650)')
-            .call(d3.axisBottom(xScale3).ticks(10).tickFormat(d => d + "%"));
-
-        svg3.append('g')
-            .attr('transform', 'translate(50, 0)')
-            .call(d3.axisLeft(yScale3).ticks(10));
-
-        svg3.append('text')
-            .attr('x', 500)
-            .attr('y', 690)
-            .attr('text-anchor', 'middle')
-            .attr('font-size', '12px')
-            .text('Effective Field Goal Percentage');
-
-        svg3.append('text')
-            .attr('x', -300)
-            .attr('y', 20)
-            .attr('text-anchor', 'middle')
-            .attr('font-size', '12px')
-            .attr('transform', 'rotate(-90)')
-            .text('Points');
-
-        const legend3 = svg3.selectAll('.legend')
-            .data(colorScale.domain())
-            .enter()
-            .append('g')
-            .attr('class', 'legend')
-            .attr('transform', (d, i) => `translate(0, ${i * 20})`);
-
-        legend3.append('rect')
-            .attr('x', 900)
-            .attr('width', 18)
-            .attr('height', 18)
-            .style('fill', colorScale);
-
-        legend3.append('text')
-            .attr('x', 880)
-            .attr('y', 9)
-            .attr('dy', '.35em')
-            .style('text-anchor', 'end')
-            .text(d => d);
-
-        const annotations3 = [
-            {
-                note: {
-                    label: "",
-                    title: "League MVP"
-                },
-                x: xScale3(data.find(d => d.Player === "Nikola Joki?").efg_perc),
-                y: yScale3(data.find(d => d.Player === "Nikola Joki?").pts),
-                dx: 60,
-                dy: 60
-            },
-        ];
-
-        const makeAnnotations3 = d3.annotation()
-            .annotations(annotations3);
-
-        svg3.append('g')
-            .call(makeAnnotations3);
-
         const positions = Array.from(new Set(data.map(d => d.Pos)));
         const positionFilter = d3.select('#positionFilter');
 
@@ -385,56 +284,180 @@ document.addEventListener('DOMContentLoaded', function() {
             .attr('value', d => d)
             .text(d => d);
 
-        positionFilter.on('change', function() {
-            updateChart();
-        });
+        // Load data for Scene 3
+        function loadScene3Data() {
+            d3.csv('./data/cleaned_nba_playoff_stats.csv').then(function(data3) {
+                // Data parsing for new dataset
+                data3.forEach(function(d) {
+                    d.pts = +d.PTS;
+                    d.fg_perc = +d['FG%'] * 100;
+                    d.threep_perc = +d['3P%'] * 100;
+                    d.twop_perc = +d['2P%'] * 100;
+                    d.trb = +d.TRB;
+                    d.ast = +d.AST;
+                    d.stl = +d.STL;
+                    d.mp = +d.MP;
+                    d.fta = +d.FTA;
+                    d.efg_perc = +d['eFG%'] * 100;
+                });
 
-        teamFilter.on('change', function() {
-            updateChart();
-        });
+                // Chart 3: Effective Field Goal Percentage vs Points
+                const svg3 = d3.select('#chart3').append('svg')
+                    .attr('width', 1000)
+                    .attr('height', 700);
 
-        function updateChart() {
-            const selectedPosition = positionFilter.node().value;
-            const selectedTeam = teamFilter.node().value;
+                const xScale3 = d3.scaleLinear()
+                    .domain([d3.min(data3, d => d.efg_perc), d3.max(data3, d => d.efg_perc)])
+                    .range([50, 950]);
 
-            const filteredData = data.filter(d => {
-                return (selectedPosition === 'All' || d.Pos === selectedPosition) &&
-                       (selectedTeam === 'All' || d.Tm === selectedTeam);
+                const yScale3 = d3.scaleLinear()
+                    .domain([d3.min(data3, d => d.pts), d3.max(data3, d => d.pts)])
+                    .range([650, 50]);
+
+                svg3.selectAll('circle')
+                    .data(data3)
+                    .enter()
+                    .append('circle')
+                    .attr('cx', d => xScale3(d.efg_perc))
+                    .attr('cy', d => yScale3(d.pts))
+                    .attr('r', 10)
+                    .attr('fill', d => colorScale(d.Pos))
+                    .attr('stroke', 'black')
+                    .attr('stroke-width', 1)
+                    .on('mouseover', function(event, d) {
+                        tooltip.html(`
+                            <strong>Player:</strong> ${d.Player}<br/>
+                            <strong>Team:</strong> ${d.Tm}<br/>
+                            <strong>Points:</strong> ${d.pts}<br/>
+                            <strong>Rebounds:</strong> ${d.trb}<br/>
+                            <strong>Assists:</strong> ${d.ast}<br/>
+                            <strong>Steals:</strong> ${d.stl}
+                        `)
+                        .style('left', (event.pageX + 10) + 'px')
+                        .style('top', (event.pageY - 28) + 'px')
+                        .style('visibility', 'visible');
+                    })
+                    .on('mouseout', function() {
+                        tooltip.style('visibility', 'hidden');
+                    });
+
+                svg3.append('g')
+                    .attr('transform', 'translate(0, 650)')
+                    .call(d3.axisBottom(xScale3).ticks(10).tickFormat(d => d + "%"));
+
+                svg3.append('g')
+                    .attr('transform', 'translate(50, 0)')
+                    .call(d3.axisLeft(yScale3).ticks(10));
+
+                svg3.append('text')
+                    .attr('x', 500)
+                    .attr('y', 690)
+                    .attr('text-anchor', 'middle')
+                    .attr('font-size', '12px')
+                    .text('Effective Field Goal Percentage');
+
+                svg3.append('text')
+                    .attr('x', -300)
+                    .attr('y', 20)
+                    .attr('text-anchor', 'middle')
+                    .attr('font-size', '12px')
+                    .attr('transform', 'rotate(-90)')
+                    .text('Points');
+
+                const legend3 = svg3.selectAll('.legend')
+                    .data(colorScale.domain())
+                    .enter()
+                    .append('g')
+                    .attr('class', 'legend')
+                    .attr('transform', (d, i) => `translate(0, ${i * 20})`);
+
+                legend3.append('rect')
+                    .attr('x', 900)
+                    .attr('width', 18)
+                    .attr('height', 18)
+                    .style('fill', colorScale);
+
+                legend3.append('text')
+                    .attr('x', 880)
+                    .attr('y', 9)
+                    .attr('dy', '.35em')
+                    .style('text-anchor', 'end')
+                    .text(d => d);
+
+                const annotations3 = [
+                    {
+                        note: {
+                            label: "",
+                            title: "League MVP"
+                        },
+                        x: xScale3(data3.find(d => d.Player === "Nikola Jokic").efg_perc),
+                        y: yScale3(data3.find(d => d.Player === "Nikola Jokic").pts),
+                        dx: 60,
+                        dy: 60
+                    },
+                ];
+
+                const makeAnnotations3 = d3.annotation()
+                    .annotations(annotations3);
+
+                svg3.append('g')
+                    .call(makeAnnotations3);
+
+                positionFilter.on('change', function() {
+                    updateChart3(data3);
+                });
+
+                teamFilter.on('change', function() {
+                    updateChart3(data3);
+                });
+
+                function updateChart3(data3) {
+                    const selectedPosition = positionFilter.node().value;
+                    const selectedTeam = teamFilter.node().value;
+
+                    const filteredData3 = data3.filter(d => {
+                        return (selectedPosition === 'All' || d.Pos === selectedPosition) &&
+                            (selectedTeam === 'All' || d.Tm === selectedTeam);
+                    });
+
+                    svg3.selectAll('circle')
+                        .data(filteredData3, d => d.Player)
+                        .join(
+                            enter => enter.append('circle')
+                                .attr('cx', d => xScale3(d.efg_perc))
+                                .attr('cy', d => yScale3(d.pts))
+                                .attr('r', 10)
+                                .attr('fill', d => colorScale(d.Pos))
+                                .attr('stroke', 'black')
+                                .attr('stroke-width', 1)
+                                .on('mouseover', function(event, d) {
+                                    tooltip.html(`
+                                        <strong>Player:</strong> ${d.Player}<br/>
+                                        <strong>Team:</strong> ${d.Tm}<br/>
+                                        <strong>Points:</strong> ${d.pts}<br/>
+                                        <strong>Rebounds:</strong> ${d.trb}<br/>
+                                        <strong>Assists:</strong> ${d.ast}<br/>
+                                        <strong>Steals:</strong> ${d.stl}
+                                    `)
+                                    .style('left', (event.pageX + 10) + 'px')
+                                    .style('top', (event.pageY - 28) + 'px')
+                                    .style('visibility', 'visible');
+                                })
+                                .on('mouseout', function() {
+                                    tooltip.style('visibility', 'hidden');
+                                }),
+                            update => update
+                                .transition()
+                                .duration(750)
+                                .attr('cx', d => xScale3(d.efg_perc))
+                                .attr('cy', d => yScale3(d.pts)),
+                            exit => exit.remove()
+                        );
+                }
+
+                // Initialize chart with all data
+                updateChart3(data3);
             });
-            
-            svg3.selectAll('circle')
-                .data(filteredData, d => d.Player)
-                .join(
-                    enter => enter.append('circle')
-                        .attr('cx', d => xScale3(d.efg_perc))
-                        .attr('cy', d => yScale3(d.pts))
-                        .attr('r', 10)
-                        .attr('fill', d => colorScale(d.Pos))
-                        .attr('stroke', 'black')
-                        .attr('stroke-width', 1)
-                        .on('mouseover', function(event, d) {
-                            tooltip.html(`
-                                <strong>Player:</strong> ${d.Player}<br/>
-                                <strong>Team:</strong> ${d.Tm}<br/>
-                                <strong>Points:</strong> ${d.pts}<br/>
-                                <strong>Rebounds:</strong> ${d.trb}<br/>
-                                <strong>Assists:</strong> ${d.ast}<br/>
-                                <strong>Steals:</strong> ${d.stl}
-                            `)
-                            .style('left', (event.pageX + 10) + 'px')
-                            .style('top', (event.pageY - 28) + 'px')
-                            .style('visibility', 'visible');
-                        })
-                        .on('mouseout', function() {
-                            tooltip.style('visibility', 'hidden');
-                        }),
-                    update => update
-                        .transition()
-                        .duration(750)
-                        .attr('cx', d => xScale3(d.efg_perc))
-                        .attr('cy', d => yScale3(d.pts)),
-                    exit => exit.remove()
-                );
         }
 
         function resetFilters() {
@@ -453,6 +476,8 @@ document.addEventListener('DOMContentLoaded', function() {
             });
 
             if (sceneNumber === 3) {
+                loadScene3Data();  // Load data for scene 3 when it is shown
+            } else {
                 resetFilters();
             }
         }
