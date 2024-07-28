@@ -456,34 +456,48 @@ document.addEventListener('DOMContentLoaded', function() {
                     exit => exit.remove()
                 );
         }
+
+        function resetFilters() {
+            positionFilter.property('value', 'All');
+            teamFilter.property('value', 'All');
+            updateChart();
+        }
+
+        function showScene(sceneNumber) {
+            document.querySelectorAll('.scene').forEach((scene, index) => {
+                if (index === sceneNumber - 1) {
+                    scene.style.display = 'block';
+                } else {
+                    scene.style.display = 'none';
+                }
+            });
+
+            if (sceneNumber === 3) {
+                resetFilters();
+            }
+        }
+
+        let currentScene = 1;
+
+        function nextScene() {
+            if (currentScene < 3) {
+                currentScene++;
+                showScene(currentScene);
+            }
+        }
+
+        function prevScene() {
+            if (currentScene > 1) {
+                currentScene--;
+                showScene(currentScene);
+            }
+        }
+
+        // Initially show the first scene
+        showScene(currentScene);
+
+        // Expose nextScene and prevScene to the global scope so they can be called from HTML
+        window.nextScene = nextScene;
+        window.prevScene = prevScene;
     });
 });
-
-let currentScene = 1;
-
-function showScene(sceneNumber) {
-    document.querySelectorAll('.scene').forEach((scene, index) => {
-        if (index === sceneNumber - 1) {
-            scene.style.display = 'block';
-        } else {
-            scene.style.display = 'none';
-        }
-    });
-}
-
-function nextScene() {
-    if (currentScene < 3) {
-        currentScene++;
-        showScene(currentScene);
-    }
-}
-
-function prevScene() {
-    if (currentScene > 1) {
-        currentScene--;
-        showScene(currentScene);
-    }
-}
-
-// Initially show the first scene
-showScene(currentScene);
