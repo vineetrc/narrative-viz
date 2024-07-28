@@ -15,16 +15,16 @@ document.addEventListener('DOMContentLoaded', function() {
         // Scene 1: Scatterplot of 3P% vs 2P% with circle size representing average points and color representing position
         const svg1 = d3.select('#chart1')
             .append('svg')
-            .attr('width', 800)
-            .attr('height', 600);
+            .attr('width', 1000)  // Increase width
+            .attr('height', 700); // Increase height
 
         const xScale1 = d3.scaleLinear()
             .domain([d3.min(data, d => d.threep_perc), 45])
-            .range([50, 750]);
+            .range([50, 950]); // Adjust range
 
         const yScale1 = d3.scaleLinear()
             .domain([30, 70])
-            .range([550, 50]);
+            .range([650, 50]); // Adjust range
 
         const rScale1 = d3.scaleSqrt()
             .domain([0, d3.max(data, d => d.pts)])
@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
 
         svg1.append('g')
-            .attr('transform', 'translate(0, 550)')
+            .attr('transform', 'translate(0, 650)')
             .call(d3.axisBottom(xScale1).ticks(10).tickFormat(d => d + "%"));
 
         svg1.append('g')
@@ -71,14 +71,14 @@ document.addEventListener('DOMContentLoaded', function() {
             .call(d3.axisLeft(yScale1).ticks(10).tickFormat(d => d + "%"));
 
         svg1.append('text')
-            .attr('x', 400)
-            .attr('y', 590)
+            .attr('x', 500)
+            .attr('y', 690)
             .attr('text-anchor', 'middle')
             .attr('font-size', '12px')
             .text('3-Point Percentage');
 
         svg1.append('text')
-            .attr('x', -400)
+            .attr('x', -350)
             .attr('y', 20)
             .attr('text-anchor', 'middle')
             .attr('font-size', '12px')
@@ -94,13 +94,13 @@ document.addEventListener('DOMContentLoaded', function() {
             .attr('transform', (d, i) => `translate(0, ${i * 20})`);
 
         legend1.append('rect')
-            .attr('x', 700)
+            .attr('x', 900)
             .attr('width', 18)
             .attr('height', 18)
             .style('fill', colorScale);
 
         legend1.append('text')
-            .attr('x', 690)
+            .attr('x', 880)
             .attr('y', 9)
             .attr('dy', '.35em')
             .style('text-anchor', 'end')
@@ -149,29 +149,29 @@ document.addEventListener('DOMContentLoaded', function() {
         // Scene 2: Bar chart of players and their average points, ordered from most points to lowest points
         const svg2 = d3.select('#chart2')
             .append('svg')
-            .attr('width', 800)
-            .attr('height', 600);
+            .attr('width', 1000)  // Increase width
+            .attr('height', 700); // Increase height
 
         data.sort((a, b) => b.pts - a.pts);
 
         const xScale2 = d3.scaleBand()
-            .domain(data.map(d => d.Player))
-            .range([50, 750])
+            .domain(data.map(d => d.Tm))
+            .range([50, 950]) // Adjust range
             .padding(0.1);
 
         const yScale2 = d3.scaleLinear()
             .domain([0, d3.max(data, d => d.pts)])
-            .range([550, 50]);
+            .range([650, 50]); // Adjust range
 
         svg2.selectAll('.bar')
             .data(data)
             .enter()
             .append('rect')
             .attr('class', 'bar')
-            .attr('x', d => xScale2(d.Player))
+            .attr('x', d => xScale2(d.Tm))
             .attr('y', d => yScale2(d.pts))
             .attr('width', xScale2.bandwidth())
-            .attr('height', d => 550 - yScale2(d.pts))
+            .attr('height', d => 650 - yScale2(d.pts)) // Adjust height
             .attr('fill', d => colorScale(d.Pos))
             .on('mouseover', function(event, d) {
                 tooltip.html(`
@@ -191,21 +191,25 @@ document.addEventListener('DOMContentLoaded', function() {
             });
 
         svg2.append('g')
-            .attr('transform', 'translate(0, 550)')
-            .call(d3.axisBottom(xScale2).tickFormat(d => d));
+            .attr('transform', 'translate(0, 650)')
+            .call(d3.axisBottom(xScale2).tickFormat(d => d).tickSizeOuter(0))
+            .selectAll('text')
+            .attr('transform', 'rotate(-45)')
+            .style('text-anchor', 'end')
+            .style('font-size', '10px'); // Reduce font size
 
         svg2.append('g')
             .attr('transform', 'translate(50, 0)')
             .call(d3.axisLeft(yScale2).ticks(10));
 
         svg2.append('text')
-            .attr('x', 400)
-            .attr('y', 590)
+            .attr('x', 500)
+            .attr('y', 690)
             .attr('text-anchor', 'middle')
-            .attr('font-size', '8px')
-            .text('Players');
+            .attr('font-size', '12px')
+            .text('Teams');
 
-        svg2.append('text')
+            svg2.append('text')
             .attr('x', -300)
             .attr('y', 20)
             .attr('text-anchor', 'middle')
@@ -222,13 +226,13 @@ document.addEventListener('DOMContentLoaded', function() {
             .attr('transform', (d, i) => `translate(0, ${i * 20})`);
 
         legend2.append('rect')
-            .attr('x', 700)
+            .attr('x', 900)
             .attr('width', 18)
             .attr('height', 18)
             .style('fill', colorScale);
 
         legend2.append('text')
-            .attr('x', 690)
+            .attr('x', 880)
             .attr('y', 9)
             .attr('dy', '.35em')
             .style('text-anchor', 'end')
@@ -238,21 +242,31 @@ document.addEventListener('DOMContentLoaded', function() {
         const annotations2 = [
             {
                 note: {
-                    label: "Nikola Jokic",
-                    title: "High Points"
+                    label: "Highest Scorer",
+                    title: data[0].Player
                 },
-                x: xScale2(data.find(d => d.Player === "Nikola Joki?").Player) + xScale2.bandwidth() / 2,
-                y: yScale2(data.find(d => d.Player === "Nikola Joki?").pts),
+                x: xScale2(data[0].Tm) + xScale2.bandwidth() / 2,
+                y: yScale2(data[0].pts),
+                dx: 60,
+                dy: -60
+            },
+            {
+                note: {
+                    label: "Second Highest Scorer",
+                    title: data[1].Player
+                },
+                x: xScale2(data[1].Tm) + xScale2.bandwidth() / 2,
+                y: yScale2(data[1].pts),
                 dx: -90,
                 dy: -40
             },
             {
                 note: {
-                    label: "Joel Embiid",
-                    title: "Most Avg Points"
+                    label: "Third Highest Scorer",
+                    title: data[2].Player
                 },
-                x: xScale2(data.find(d => d.Player === "Joel Embiid").Player) + xScale2.bandwidth() / 2,
-                y: yScale2(data.find(d => d.Player === "Joel Embiid").pts),
+                x: xScale2(data[2].Tm) + xScale2.bandwidth() / 2,
+                y: yScale2(data[2].pts),
                 dx: -10,
                 dy: -40
             }
