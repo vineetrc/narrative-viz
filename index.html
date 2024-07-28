@@ -10,7 +10,7 @@
 </head>
 <body>
     <header>
-        <h1>NBA Narrative Visualization</h1>
+        <h1>NBA Playoff Visualization</h1>
         
     </header>
     <main>
@@ -21,7 +21,7 @@
             <div class="annotation">This scatterplot shows player performance based on their 3-point percentage and 2-point percentage. The size of the circles represents the average points scored by each player, and the colors indicate the teams.</div>
         </div>
         <div id="scene2" class="scene" style="display:none;">
-            <h2>Scene 2: Details</h2>
+            <h2>Scene 2: Team Based Details</h2>
             <p>This scene provides detailed information on shooting efficiency, comparing field goal percentage with three-point percentage.</p>
             <div id="chart2"></div>
             <div class="annotation">This scene provides detailed information.</div>
@@ -30,7 +30,6 @@
             <h2>Scene 3: Conclusion</h2>
             <p>This scene concludes the story by highlighting player contributions in terms of effective field goal percentage and points.</p>
             <div id="chart3"></div>
-            <div class="annotation">This scatterplot shows player performance based on their effective field goal percentage and points. The colors indicate the teams.</div>
             <div class="filter">
                 <label for="positionFilter">Filter by Position:</label>
                 <select id="positionFilter">
@@ -44,21 +43,13 @@
                 <label for="teamFilter">Filter by Team:</label>
                 <select id="teamFilter">
                     <option value="All">All</option>
-                    <option value="ATL">Atlanta Hawks</option>
                     <option value="BOS">Boston Celtics</option>
-                    <option value="BKN">Brooklyn Nets</option>
-                    <option value="CHA">Charlotte Hornets</option>
-                    <option value="CHI">Chicago Bulls</option>
                     <option value="CLE">Cleveland Cavaliers</option>
                     <option value="DAL">Dallas Mavericks</option>
                     <option value="DEN">Denver Nuggets</option>
-                    <option value="DET">Detroit Pistons</option>
-                    <option value="GSW">Golden State Warriors</option>
-                    <option value="HOU">Houston Rockets</option>
                     <option value="IND">Indiana Pacers</option>
                     <option value="LAC">Los Angeles Clippers</option>
                     <option value="LAL">Los Angeles Lakers</option>
-                    <option value="MEM">Memphis Grizzlies</option>
                     <option value="MIA">Miami Heat</option>
                     <option value="MIL">Milwaukee Bucks</option>
                     <option value="MIN">Minnesota Timberwolves</option>
@@ -68,14 +59,9 @@
                     <option value="ORL">Orlando Magic</option>
                     <option value="PHI">Philadelphia 76ers</option>
                     <option value="PHO">Phoenix Suns</option>
-                    <option value="POR">Portland Trail Blazers</option>
-                    <option value="SAC">Sacramento Kings</option>
-                    <option value="SAS">San Antonio Spurs</option>
-                    <option value="TOR">Toronto Raptors</option>
-                    <option value="UTA">Utah Jazz</option>
-                    <option value="WAS">Washington Wizards</option>
                 </select>
             </div>
+            <div class="annotation">This scatterplot shows player performance based on their effective field goal percentage and points. The colors indicate the teams.</div>
         </div>
     </main>
     <div class="navigation">
