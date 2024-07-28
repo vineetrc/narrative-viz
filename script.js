@@ -160,7 +160,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .padding(0.1);
 
         const yScale2 = d3.scaleLinear()
-            .domain([0, d3.max(data, d => d.pts)])
+            .domain([0, 40]) // Adjust domain to scale up to 40
             .range([650, 50]); // Adjust range
 
         svg2.selectAll('.bar')
@@ -273,7 +273,16 @@ document.addEventListener('DOMContentLoaded', function() {
         ];
 
         const makeAnnotations2 = d3.annotation()
-            .annotations(annotations2);
+            .annotations(annotations2)
+            .type(d3.annotationLabel)
+            .accessors({
+                x: d => xScale2(d.Tm) + xScale2.bandwidth() / 2,
+                y: d => yScale2(d.pts)
+            })
+            .accessorsInverse({
+                Tm: d => xScale2.invert(d.x),
+                pts: d => yScale2.invert(d.y)
+            });
 
         svg2.append('g')
             .call(makeAnnotations2);
