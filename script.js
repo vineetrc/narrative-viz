@@ -393,6 +393,60 @@ document.addEventListener('DOMContentLoaded', function() {
 
         svg3.append('g')
             .call(makeAnnotations3);
+
+        // Populate position dropdown
+        const positions = Array.from(new Set(data.map(d => d.Pos)));
+        const positionFilter = d3.select('#positionFilter');
+
+        positionFilter.selectAll('option')
+            .data(positions)
+            .enter()
+            .append('option')
+            .attr('value', d => d)
+            .text(d => d);
+
+        positionFilter.on('change', function() {
+            const selectedPosition = this.value;
+            updateChart(selectedPosition);
+        });
+
+        function updateChart(position) {
+            const filteredData = position === 'All' ? data : data.filter(d => d.Pos === position);
+            
+            svg3.selectAll('circle')
+                .data(filteredData, d => d.Player)
+                .join(
+                    enter => enter.append('circle')
+                        .attr('cx', d => xScale3(d.efg_perc))
+                        .attr('cy', d => yScale3(d.pts))
+                        .attr('r', 10)
+                        .attr('fill', d => colorScale(d.Pos))
+                        .attr('stroke', 'black')
+                        .attr('stroke-width', 1)
+                        .on('mouseover', function(event, d) {
+                            tooltip.html(`
+                                <strong>Player:</strong> ${d.Player}<br/>
+                                <strong>Team:</strong> ${d.Tm}<br/>
+                                <strong>Points:</strong> ${d.pts}<br/>
+                                <strong>Rebounds:</strong> ${d.trb}<br/>
+                                <strong>Assists:</strong> ${d.ast}<br/>
+                                <strong>Steals:</strong> ${d.stl}
+                            `)
+                            .style('left', (event.pageX + 10) + 'px')
+                            .style('top', (event.pageY - 28) + 'px')
+                            .style('visibility', 'visible');
+                        })
+                        .on('mouseout', function() {
+                            tooltip.style('visibility', 'hidden');
+                        }),
+                    update => update
+                        .transition()
+                        .duration(750)
+                        .attr('cx', d => xScale3(d.efg_perc))
+                        .attr('cy', d => yScale3(d.pts)),
+                    exit => exit.remove()
+                );
+        }
     });
 });
 
