@@ -110,8 +110,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const annotations1 = [
             {
                 note: {
-                    label: "Anthony Davis",
-                    title: "High 2P%/Low 3P%"
+                    label: "",
+                    title: "High 2P%/Low 3P% \n (Anthony Davis)"
                 },
                 x: xScale1(data.find(d => d.Player === "Anthony Davis").threep_perc),
                 y: yScale1(data.find(d => d.Player === "Anthony Davis").twop_perc),
@@ -120,8 +120,8 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             {
                 note: {
-                    label: "Damian Lillard",
-                    title: "High 3P%/Low 2P%"
+                    label: "",
+                    title: "High 3P%/Low 2P% \n (Damian Lillard)"
                 },
                 x: xScale1(data.find(d => d.Player === "Damian Lillard").threep_perc),
                 y: yScale1(data.find(d => d.Player === "Damian Lillard").twop_perc),
@@ -130,8 +130,8 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             {
                 note: {
-                    label: "Joel Embiid",
-                    title: "Highest Scorer"
+                    label: "",
+                    title: "Highest Scorer \n (Joel Embiid)"
                 },
                 x: xScale1(data.find(d => d.Player === "Joel Embiid").threep_perc),
                 y: yScale1(data.find(d => d.Player === "Joel Embiid").twop_perc),
