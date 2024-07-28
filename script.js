@@ -291,216 +291,120 @@ document.addEventListener('DOMContentLoaded', function() {
             .domain([d3.min(data, d => d.pts), d3.max(data, d => d.pts)])
             .range([650, 50]);
 
-        const svg3Annotations = svg3.append('g');
+            const svg3Annotations = svg3.append('g').attr('class', 'annotations');
 
-        const annotations3 = [
-            {
-                note: {
-                    label: "",
-                    title: "League MVP: Nikola Jokic"
+            const annotations3 = [
+                {
+                    note: {
+                        label: "",
+                        title: "League MVP: Nikola Jokic"
+                    },
+                    x: xScale3(data.find(d => d.Player === "Nikola Joki?").efg_perc),
+                    y: yScale3(data.find(d => d.Player === "Nikola Joki?").pts),
+                    dx: 60,
+                    dy: 60
                 },
-                x: xScale3(data.find(d => d.Player === "Nikola Joki?").efg_perc),
-                y: yScale3(data.find(d => d.Player === "Nikola Joki?").pts),
-                dx: 60,
-                dy: 60
-            },
-        ];
-
-        const makeAnnotations3 = d3.annotation()
-            .annotations(annotations3);
-
-        svg3Annotations.call(makeAnnotations3);
-
-        svg3.selectAll('circle')
-            .data(data)
-            .enter()
-            .append('circle')
-            .attr('cx', d => xScale3(d.efg_perc))
-            .attr('cy', d => yScale3(d.pts))
-            .attr('r', 10)
-            .attr('fill', d => colorScale(d.Pos))
-            .attr('stroke', 'black')
-            .attr('stroke-width', 1)
-            .on('mouseover', function(event, d) {
-                tooltip.html(`
-                    <strong>Player:</strong> ${d.Player}<br/>
-                    <strong>Team:</strong> ${d.Tm}<br/>
-                    <strong>Points:</strong> ${d.pts}<br/>
-                    <strong>Rebounds:</strong> ${d.trb}<br/>
-                    <strong>Assists:</strong> ${d.ast}<br/>
-                    <strong>Steals:</strong> ${d.stl}
-                `)
-                .style('left', (event.pageX + 10) + 'px')
-                .style('top', (event.pageY - 28) + 'px')
-                .style('visibility', 'visible');
-            })
-            .on('mouseout', function() {
-                tooltip.style('visibility', 'hidden');
-            });
-
-        svg3.append('g')
-            .attr('transform', 'translate(0, 650)')
-            .call(d3.axisBottom(xScale3).ticks(10).tickFormat(d => d + "%"));
-
-        svg3.append('g')
-            .attr('transform', 'translate(50, 0)')
-            .call(d3.axisLeft(yScale3).ticks(10));
-
-        svg3.append('text')
-            .attr('x', 500)
-            .attr('y', 690)
-            .attr('text-anchor', 'middle')
-            .attr('font-size', '12px')
-            .text('Effective Field Goal Percentage');
-
-        svg3.append('text')
-            .attr('x', -300)
-            .attr('y', 20)
-            .attr('text-anchor', 'middle')
-            .attr('font-size', '12px')
-            .attr('transform', 'rotate(-90)')
-            .text('Points');
-
-        const legend3 = svg3.selectAll('.legend')
-            .data(colorScale.domain())
-            .enter()
-            .append('g')
-            .attr('class', 'legend')
-            .attr('transform', (d, i) => `translate(0, ${i * 20})`);
-
-        legend3.append('rect')
-            .attr('x', 900)
-            .attr('width', 18)
-            .attr('height', 18)
-            .style('fill', colorScale);
-
-        legend3.append('text')
-            .attr('x', 880)
-            .attr('y', 9)
-            .attr('dy', '.35em')
-            .style('text-anchor', 'end')
-            .text(d => d);
-
-        const positions = Array.from(new Set(data.map(d => d.Pos)));
-        const positionFilter = d3.select('#positionFilter');
-
-        positionFilter.selectAll('option')
-            .data(positions)
-            .enter()
-            .append('option')
-            .attr('value', d => d)
-            .text(d => d);
-
-        const teams = Array.from(new Set(data.map(d => d.Tm)));
-        const teamFilter = d3.select('#teamFilter');
-
-        teamFilter.selectAll('option')
-            .data(teams)
-            .enter()
-            .append('option')
-            .attr('value', d => d)
-            .text(d => d);
-
-        positionFilter.on('change', function() {
-            updateChart();
-        });
-
-        teamFilter.on('change', function() {
-            updateChart();
-        });
-
-        function updateChart() {
-            const selectedPosition = positionFilter.node().value;
-            const selectedTeam = teamFilter.node().value;
-
-            const filteredData = data.filter(d => {
-                return (selectedPosition === 'All' || d.Pos === selectedPosition) &&
-                       (selectedTeam === 'All' || d.Tm === selectedTeam);
-            });
+            ];
             
-            svg3.selectAll('circle')
-                .data(filteredData, d => d.Player)
-                .join(
-                    enter => enter.append('circle')
-                        .attr('cx', d => xScale3(d.efg_perc))
-                        .attr('cy', d => yScale3(d.pts))
-                        .attr('r', 10)
-                        .attr('fill', d => colorScale(d.Pos))
-                        .attr('stroke', 'black')
-                        .attr('stroke-width', 1)
-                        .on('mouseover', function(event, d) {
-                            tooltip.html(`
-                                <strong>Player:</strong> ${d.Player}<br/>
-                                <strong>Team:</strong> ${d.Tm}<br/>
-                                <strong>Points:</strong> ${d.pts}<br/>
-                                <strong>Rebounds:</strong> ${d.trb}<br/>
-                                <strong>Assists:</strong> ${d.ast}<br/>
-                                <strong>Steals:</strong> ${d.stl}
-                            `)
-                            .style('left', (event.pageX + 10) + 'px')
-                            .style('top', (event.pageY - 28) + 'px')
-                            .style('visibility', 'visible');
-                        })
-                        .on('mouseout', function() {
-                            tooltip.style('visibility', 'hidden');
-                        }),
-                    update => update
-                        .transition()
-                        .duration(750)
-                        .attr('cx', d => xScale3(d.efg_perc))
-                        .attr('cy', d => yScale3(d.pts)),
-                    exit => exit.remove()
-                );
-
-            // Conditionally remove the annotation for Nikola Jokic
-            if (selectedPosition !== 'All' || selectedTeam !== 'All') {
-                svg3Annotations.selectAll("*").remove(); // Clear annotations if filters are applied
-            } else {
-                svg3Annotations.call(makeAnnotations3); // Add annotations if filters are not applied
-            }
-        }
-
-        function resetFilters() {
-            positionFilter.property('value', 'All');
-            teamFilter.property('value', 'All');
-            updateChart();
-        }
-
-        function showScene(sceneNumber) {
-            document.querySelectorAll('.scene').forEach((scene, index) => {
-                if (index === sceneNumber - 1) {
-                    scene.style.display = 'block';
+            const makeAnnotations3 = d3.annotation().annotations(annotations3);
+            
+            // Initially add the annotations
+            svg3Annotations.call(makeAnnotations3);
+            
+            function updateChart() {
+                const selectedPosition = positionFilter.node().value;
+                const selectedTeam = teamFilter.node().value;
+            
+                const filteredData = data.filter(d => {
+                    return (selectedPosition === 'All' || d.Pos === selectedPosition) &&
+                           (selectedTeam === 'All' || d.Tm === selectedTeam);
+                });
+            
+                svg3.selectAll('circle')
+                    .data(filteredData, d => d.Player)
+                    .join(
+                        enter => enter.append('circle')
+                            .attr('cx', d => xScale3(d.efg_perc))
+                            .attr('cy', d => yScale3(d.pts))
+                            .attr('r', 10)
+                            .attr('fill', d => colorScale(d.Pos))
+                            .attr('stroke', 'black')
+                            .attr('stroke-width', 1)
+                            .on('mouseover', function(event, d) {
+                                tooltip.html(`
+                                    <strong>Player:</strong> ${d.Player}<br/>
+                                    <strong>Team:</strong> ${d.Tm}<br/>
+                                    <strong>Points:</strong> ${d.pts}<br/>
+                                    <strong>Rebounds:</strong> ${d.trb}<br/>
+                                    <strong>Assists:</strong> ${d.ast}<br/>
+                                    <strong>Steals:</strong> ${d.stl}
+                                `)
+                                .style('left', (event.pageX + 10) + 'px')
+                                .style('top', (event.pageY - 28) + 'px')
+                                .style('visibility', 'visible');
+                            })
+                            .on('mouseout', function() {
+                                tooltip.style('visibility', 'hidden');
+                            }),
+                        update => update
+                            .transition()
+                            .duration(750)
+                            .attr('cx', d => xScale3(d.efg_perc))
+                            .attr('cy', d => yScale3(d.pts)),
+                        exit => exit.remove()
+                    );
+            
+                // Conditionally remove or add the annotation for Nikola Jokic
+                if (selectedPosition !== 'All' || selectedTeam !== 'All') {
+                    d3.select(".annotations").remove(); // Clear annotations if filters are applied
                 } else {
-                    scene.style.display = 'none';
+                    svg3Annotations.call(makeAnnotations3); // Add annotations if filters are not applied
                 }
-            });
-
-            if (sceneNumber === 3) {
-                resetFilters();
             }
-        }
-
-        let currentScene = 1;
-
-        function nextScene() {
-            if (currentScene < 3) {
-                currentScene++;
-                showScene(currentScene);
+            
+            function resetFilters() {
+                positionFilter.property('value', 'All');
+                teamFilter.property('value', 'All');
+                updateChart();
             }
-        }
-
-        function prevScene() {
-            if (currentScene > 1) {
-                currentScene--;
-                showScene(currentScene);
+            
+            function showScene(sceneNumber) {
+                document.querySelectorAll('.scene').forEach((scene, index) => {
+                    if (index === sceneNumber - 1) {
+                        scene.style.display = 'block';
+                    } else {
+                        scene.style.display = 'none';
+                    }
+                });
+            
+                if (sceneNumber === 3) {
+                    resetFilters();
+                }
             }
-        }
+            
+            let currentScene = 1;
+            
+            function nextScene() {
+                if (currentScene < 3) {
+                    currentScene++;
+                    showScene(currentScene);
+                }
+            }
+            
+            function prevScene() {
+                if (currentScene > 1) {
+                    currentScene--;
+                    showScene(currentScene);
+                }
+            }
+            
+            // Initially show the first scene
+            showScene(currentScene);
+            
+            // Expose nextScene and prevScene to the global scope so they can be called from HTML
+            window.nextScene = nextScene;
+            window.prevScene = prevScene;
 
-        // Initially show the first scene
-        showScene(currentScene);
-
-        // Expose nextScene and prevScene to the global scope so they can be called from HTML
-        window.nextScene = nextScene;
-        window.prevScene = prevScene;
+        
     });
 });
