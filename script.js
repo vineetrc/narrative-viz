@@ -280,7 +280,7 @@ document.addEventListener('DOMContentLoaded', function() {
             {
                 note: {
                     label: "",
-                    title: "23-24 NBA Champions"
+                    title: "    23-24 NBA Champions"
                 },
                 x: xScaleScene2("BOS") + xScaleScene2.bandwidth() / 2,
                 y: yScaleScene2(bosTotalPoints),
