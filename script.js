@@ -188,8 +188,6 @@ document.addEventListener('DOMContentLoaded', function() {
             .domain([0, d3.max(nestedDataScene2, d => d3.sum(d[1], v => v.pts))])
             .range([650, 50]);
 
-        const colorScaleScene2 = d3.scaleOrdinal(d3.schemeCategory10);
-
         nestedDataScene2.forEach(d => {
             const team = d[0];
             const players = d[1];
@@ -204,7 +202,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     .attr('y', yScaleScene2(y1))
                     .attr('width', xScaleScene2.bandwidth())
                     .attr('height', yScaleScene2(y0) - yScaleScene2(y1))
-                    .attr('fill', colorScaleScene2(player.Pos))
+                    .attr('fill', colorScale(player.Pos))
                     .on('mouseover', function(event) {
                         tooltip.html(`
                             <strong>Player:</strong> ${player.Player}<br/>
@@ -254,7 +252,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .text('Total Points');
 
         const legendScene2 = svgScene2.selectAll('.legend')
-            .data(colorScaleScene2.domain())
+            .data(colorScale.domain())
             .enter()
             .append('g')
             .attr('class', 'legend')
@@ -264,7 +262,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .attr('x', 900)
             .attr('width', 18)
             .attr('height', 18)
-            .style('fill', colorScaleScene2);
+            .style('fill', colorScale);
 
         legendScene2.append('text')
             .attr('x', 880)
