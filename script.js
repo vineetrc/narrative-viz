@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <strong>Assists:</strong> ${d.ast}<br/>
                     <strong>Steals:</strong> ${d.stl}<br/>
                     <strong>2P%:</strong> ${d.twop_perc}%<br/>
-                    strong>3P%:</strong> ${d.threep_perc}%
+                    <strong>3P%:</strong> ${d.threep_perc}%
                 `)
                 .style('left', (event.pageX + 10) + 'px')
                 .style('top', (event.pageY - 28) + 'px')
